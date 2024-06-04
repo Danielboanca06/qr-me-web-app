@@ -1,0 +1,12 @@
+{
+  "watch": [
+    "pages/",
+    "components/",
+    "lib/",
+    "styles/",
+    "next.config.js",
+    ".env"
+  ],
+  "exec": "next dev",
+  "ext": "js,jsx,ts,tsx,json,css,scss"
+}
