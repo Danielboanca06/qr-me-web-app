@@ -39,6 +39,9 @@ const config = {
         scrim: {
           100: "#F0F0F0",
           200: "#E1E1E1",
+          400: "#DADDE1",
+          500: "#BBC0C8",
+          600: "#9199A5",
         },
         link: {
           100: "#4285F4",
@@ -54,6 +57,9 @@ const config = {
       boxShadow: {
         form: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
       },
+      boxShadowImg: {
+        custom: "0 0 30px 30px rgba(0, 0, 0, 1)",
+      },
       fontFamily: {
         helvetica: ["Helvetica", "Arial", "sans-serif"],
       },
@@ -66,10 +72,22 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+
+        fadeDown: {
+          "0%": { opacity: "0", transform: "translateY(-20px)" },
+          "100%": { opacity: "100", transform: "translateY(0)" },
+        },
+
+        fadeUp: {
+          "0%": { opacity: "100", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(-20px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        fadeDown: "fadeDown 0.4s ease-out",
+        fadeUp: "fadeUp 0.4s ease-out",
       },
     },
   },

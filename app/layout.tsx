@@ -1,8 +1,8 @@
 export const dynamic = "force-dynamic";
-
 import type { Metadata } from "next";
 import { Inter, IBM_Plex_Serif } from "next/font/google";
 import "./globals.css";
+import Header from "components/header/header";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const ibmPlexSerif = IBM_Plex_Serif({
@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   title: "Qr Me",
   description: "Qr Me is a ...",
   icons: {
-    icon: "/Qr-Me-Logo.png",
+    icon: "/logo_1.png",
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

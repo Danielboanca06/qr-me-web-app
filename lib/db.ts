@@ -1,28 +1,44 @@
-// Importing mongoose library along with Connection type from it
-import mongoose, { Connection } from "mongoose";
+"use server";
+import mongoose from "mongoose";
 
-// Declaring a variable to store the cached database connection
-let cachedConnection: Connection | null = null;
+const uri = process.env.MONGODB_URI;
 
-// Function to establish a connection to MongoDB
-export async function connectToMongoDB() {
-  // If a cached connection exists, return it
-  if (cachedConnection) {
-    console.log("Using cached db connection");
-    return cachedConnection;
-  }
-  try {
-    // If no cached connection exists, establish a new connection to MongoDB
-    const cnx = await mongoose.connect(process.env.MONGODB_URI!);
-    // Cache the connection for future use
-    cachedConnection = cnx.connection;
-    // Log message indicating a new MongoDB connection is established
-    console.log("New mongodb connection established");
-    // Return the newly established connection
-    return cachedConnection;
-  } catch (error) {
-    // If an error occurs during connection, log the error and throw it
-    console.log(error);
-    throw error;
-  }
+if (!uri) {
+  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
 }
+
+declare global {
+  var mongoose: {
+    conn: typeof import("mongoose") | null;
+    promise: Promise<typeof import("mongoose")> | null;
+  };
+}
+
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+const connectToMongoDB = async () => {
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const options = {
+      bufferCommands: false,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    };
+
+    cached.promise = mongoose.connect(uri, options).then((mongoose) => {
+      return mongoose;
+    });
+  }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
+};
+
+export default connectToMongoDB;

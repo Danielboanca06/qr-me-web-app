@@ -1,4 +1,4 @@
-import AuthMethod from "@components/auth/authMethod";
+import AuthMethod from "components/auth/authMethod";
 import { notFound, useParams } from "next/navigation";
 
 const AuthMethodSelector = () => {

@@ -3,8 +3,8 @@ declare type SignUpParams = {
   firstName: string;
   lastName: string;
   email: string;
+  username: string;
   phoneNumber?: string;
-  shoppingPreferance: "Men's" | "Women's";
   password: string;
 };
 
@@ -13,6 +13,7 @@ declare type ShipppingDetails = {
   city: string;
   postalCode: string;
   dateOfBirth: string;
+  shoppingPreference: "Men's" | "Women's";
 };
 
 declare type LoginUser = {
@@ -27,6 +28,14 @@ declare type VerifyEmail = {
   createdAt: moongose.Date;
 };
 
+/*Database*/
+declare global {
+  var mongoose: {
+    conn: typeof import("mongoose") | null;
+    promise: Promise<typeof import("mongoose")> | null;
+  };
+}
+
 /* User */
 declare type User = {
   _id: mongoose.Schema.Types.ObjectId;
@@ -37,10 +46,28 @@ declare type User = {
   lastName: string;
   email: string;
   password: string;
+  username: string;
   phoneNumber?: string;
   dateOfBirth?: string;
   address?: string;
   city?: string;
   postalCode?: string;
-  shoppingPreferance: "Men's" | "Women's";
+  shoppingPreference: "Men's" | "Women's";
+  emailToken?: string;
+  qrCodes?: QrCode[];
+};
+
+/* Qr Code */
+declare type QrCodeImage = {};
+
+declare type QrCode = {
+  id: string;
+  html?: React.ReactNode;
+  title: string;
+  previewImage?: string;
+  owner?: string;
+  public: boolean;
+  creaded_at: moongose.Date;
+  updatedAt: moongose.Date;
+  qrCode: string;
 };

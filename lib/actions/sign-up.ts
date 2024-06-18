@@ -1,22 +1,35 @@
 "use server";
-import UserModel from "@models/user";
-import VerifyEmail from "@models/verifyEmail";
-import { connectToMongoDB } from "../db";
+
+import UserModel from "models/user";
+import connectToMongoDB from "lib/db";
 import { randomUUID } from "crypto";
-import mongoose from "mongoose";
 import nodemailer from "nodemailer";
-import path from "path"; // Import the path module
+import VerifyEmail from "models/verifyEmail";
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: process.env.NODEMIALER_SERVICE,
   auth: {
-    user: "danieljamesboanca2006@gmail.com",
-    pass: "wqwwjwtfuiluefup",
+    user: process.env.NODEMIALER_USER,
+    pass: process.env.NODEMIALER_PASS,
   },
 });
 
-export const sendEmail = async (email: string, token: string) => {
-  console.log(token);
+export const sendEmail = async (email: string, token?: string) => {
+  if (!token) {
+    try {
+      await connectToMongoDB();
+      const data = await VerifyEmail.findOne({ email });
+      token = data?.emailToken;
+    } catch (e) {
+      console.log("Error getting token form email. Message:", e);
+      return { status: 500 };
+    }
+  }
+  if (!token) {
+    //user already registered
+    //user verify document modal is deleted on register
+    return { status: 400 };
+  }
   try {
     const info = await transporter.sendMail({
       from: "Qr-me", // sender address
@@ -24,46 +37,74 @@ export const sendEmail = async (email: string, token: string) => {
       subject: "Hello ✔", // Subject line
       text: "Hello world?", // plain text body
       html: `<p>Get started creating your account ?</p>
-      <p>http://localhost:3005/sign-up/user-details/${token}</p>
+      <p>http://192.168.1.4:3005/sign-up/user-details/${token}</p>
       `, // html body
     });
-
-    console.log("Message sent: %s", info.messageId);
+    if (info.response) {
+      return { status: 200 };
+    }
+    return { status: 500 };
   } catch (e) {
-    console.log(e);
+    console.log("Error has occured transporting email", e);
+    return { status: 500 };
   }
 };
 
-export const signUp = async (formData: FormData) => {
-  //   connectToMongoDB();
-};
-
-export const verifyEmail = async (email: string) => {
+export const verifyEmail = async (
+  email: string
+): Promise<{ status?: number; token?: string }> => {
   await connectToMongoDB();
+
+  const existingUser = await UserModel.exists({ email });
+
+  console.log({ existingUser });
+
+  if (existingUser) {
+    return { status: 400 };
+  }
+
   const token = `${randomUUID()}${randomUUID()}`.replace(/-/g, "");
 
-  const activateToken = await VerifyEmail.updateOne(
-    { email },
-    { email, token, createdAt: new Date() },
-    { upsert: true, new: true }
-  );
+  try {
+    await VerifyEmail.updateOne(
+      { email }, // Query criteria to find the document
+      {
+        $set: {
+          token,
+          createdAt: new Date(),
+        },
+      },
+      { upsert: true } // Upsert option to insert or update
+    );
+    console.log("Document inserted/updated successfully");
+  } catch (e) {
+    console.log("Error trying to create or update user. Message:", e);
+    return { status: 500 };
+  }
 
-  console.log({ activateToken });
-
-  await sendEmail(email, token);
+  const response = await sendEmail(email, token);
+  if (response.status === 200) {
+    return { ...response };
+  }
+  return response;
 };
 
 export const validateEmailToken = async (token: string) => {
   await connectToMongoDB();
   try {
-    const tokenData = await VerifyEmail.findOne({ token });
-    if (tokenData) {
-      const { email } = tokenData;
-      return { email, tokenExists: true };
+    const oneTimeAccsessToken = await VerifyEmail.findOne({
+      token: token,
+    });
+
+    console.log(!!oneTimeAccsessToken);
+
+    if (!!oneTimeAccsessToken) {
+      return { status: 200, email: oneTimeAccsessToken.email };
+    } else {
+      return { status: 400, redirect: true };
     }
-    return { email: null, tokenExists: false };
   } catch (error) {
     console.error("Error checking token:", error);
-    return { email: null, tokenExists: false };
+    return { status: 500 };
   }
 };

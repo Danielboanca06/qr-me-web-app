@@ -1,4 +1,4 @@
-import AuthForm from "@components/auth/authForm";
+import AuthForm from "components/auth/authForm";
 
 const SignIn = () => {
   return (
