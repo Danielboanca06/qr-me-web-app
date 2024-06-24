@@ -11,7 +11,7 @@ const AuthMethod = () => {
   const handlePress = (type: "Email" | "Apple" | "Google") => {
     switch (type) {
       case "Email":
-        router.push("/sign-up");
+        router.push("/sign-up/email-form");
       case "Apple":
       case "Google":
       default:

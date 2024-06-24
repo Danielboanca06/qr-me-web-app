@@ -23,10 +23,10 @@ export const NavBar = ({
       className={cn(
         { "h-full w-full flex-col  flex": dropDown },
         {
-          "hidden xl:flex justify-evenly  w-2/5  min-w-[350px] ": !dropDown,
+          "hidden xl:flex justify-evenly  w-2/5   ": !dropDown,
         },
         {
-          "flex flex-row absolute top-20 w-full bg-white-100":
+          "flex flex-row absolute top-[75px] w-full bg-white-100":
             type === "userOptions",
         }
       )}
