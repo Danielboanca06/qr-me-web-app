@@ -37,7 +37,7 @@ declare global {
 }
 
 /* User */
-declare type User = {
+declare interface User {
   _id: mongoose.Schema.Types.ObjectId;
   emailToken: string;
   createdAt: moongose.Date;
@@ -54,18 +54,26 @@ declare type User = {
   postalCode?: string;
   shoppingPreference: "Men's" | "Women's";
   emailToken?: string;
-  qrCodes?: QrCode[];
-};
+  qrCodes?: QrCodePreview[];
+}
 
 /* Qr Code */
-declare type QrCodeImage = {};
+declare type QrCodePreview = {
+  _id: mongoose.Schema.Types.ObjectId;
+  accessId: string;
+  title: string;
+  previewImage?: string;
+  public: boolean;
+  updatedAt: moongose.Date;
+};
 
 declare type QrCode = {
-  id: string;
+  _id: mongoose.Schema.Types.ObjectId;
+  accessId: string; // !under 8 char long simplify qr code!
   html?: React.ReactNode;
   title: string;
   previewImage?: string;
-  owner?: string;
+  owner?: string; // the users email
   public: boolean;
   creaded_at: moongose.Date;
   updatedAt: moongose.Date;

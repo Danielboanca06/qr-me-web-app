@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import UserModel from "models/user";
 import bcrypt from "bcryptjs";
 import connectToMongoDB from "lib/db";
+import { getUser } from "lib/actions/user";
 
 export const {
   handlers: { GET, POST },
@@ -13,6 +14,7 @@ export const {
   session: {
     strategy: "jwt",
   },
+  secret: process.env.NEXT_AUTH_SECRET,
   providers: [
     CredentialsProvider({
       credentials: {
@@ -46,4 +48,22 @@ export const {
       },
     }),
   ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      if (user) {
+        token.uid = user;
+      }
+
+      return token;
+    },
+    session: async ({ session, token }) => {
+      // here we put session.useData and put inside it whatever you want to be in the session
+      // here try to console.log(token) and see what it will have
+      // sometimes the user get stored in token.uid.userData
+      // sometimes the user data get stored in just token.uid
+      const user = await getUser(session.user.email);
+      session.user = user.user;
+      return session;
+    },
+  },
 });

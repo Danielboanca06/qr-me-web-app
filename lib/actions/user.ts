@@ -70,6 +70,7 @@ export const signUserIn = async ({
   password: string;
 }) => {
   try {
+    await connectToMongoDB();
     await signIn("credentials", {
       email: email,
       password: password,
@@ -86,5 +87,42 @@ export const signUserIn = async ({
       message: "Email or Password is incorrect",
       status: 500,
     };
+  }
+};
+
+export const getUser = async (email: string) => {
+  try {
+    await connectToMongoDB();
+    const user = await UserModel.findOne({ email }).select("-password");
+
+    if (!user) {
+      return { status: 404, message: "No User Found" };
+    }
+
+    return { status: 200, user };
+  } catch (e) {
+    console.log("error getting user data by email");
+    return { status: 500 };
+  }
+};
+
+export const addQrCodeToUser = async (qr: QrCodePreview, userId: string) => {
+  try {
+    await connectToMongoDB();
+
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      userId,
+      { $push: { qrCodes: qr } },
+      { new: true, upsert: true }
+    );
+
+    if (!updatedUser) {
+      throw new Error("User not found");
+    }
+
+    return { status: 200, message: "success" };
+  } catch (e) {
+    console.error("Error adding QR code to user:", e);
+    return { status: 500, message: "Internal server error" };
   }
 };

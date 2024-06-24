@@ -9,13 +9,16 @@ interface PageProps {
 const Page = async ({ params }: PageProps) => {
   const qrCode = await getQrCode(params.id);
   const session = await auth();
+  const html = qrCode?.body.html;
+  console.log(html);
   return (
-    <section className="flex-center size-full max-sm:px-6">
-      <CliamCode
-        qrCodeImg={qrCode?.body?.qrCode || ""}
-        hasSession={!!session}
+    <section className="flex-center size-full ">
+      {/* <CliamCode
+        session={session?.user}
         codeId={params.id}
-      />
+        qrCode={qrCode?.body || undefined}
+      /> */}
+      <ScanContent html={JSON.parse(html)} />
     </section>
   );
 };

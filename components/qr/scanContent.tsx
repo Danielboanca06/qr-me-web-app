@@ -1,35 +1,59 @@
 "use client";
 
-import { useEffect } from "react";
-
-interface ScanContentProps {
-  html: string;
+interface TextData {
+  value: string;
+  styles: any;
+  className: string;
 }
 
-const ScanContent = ({ html }: ScanContentProps) => {
+interface TextItem {
+  text: TextData;
+}
+
+import { cn } from "lib/utils";
+import { useEffect, useState } from "react";
+
+const ScanContent = ({ html }) => {
+  const [isStylesReady, setIsStylesReady] = useState(false);
+  const [styles, setStyles] = useState({});
+  const [text, setText] = useState<TextData[]>([]);
+
   useEffect(() => {
-    const button = document.getElementById("myButton");
-    if (button) {
-      button.addEventListener("click", () => {
-        console.log("Hello, World!");
-      });
+    if (html) {
+      // setStyles(html.text.styles);
+      // setText
+      // console.log({ html });
+      setIsStylesReady(true);
+      setText(html);
     }
-    // Cleanup event listener on component unmount
-    return () => {
-      if (button) {
-        button.removeEventListener("click", () => {
-          console.log("Hello, World!");
-        });
-      }
+  }, [html]);
+
+  if (!isStylesReady) {
+    return <div>Loading...</div>; // Placeholder or loading indicator
+  }
+  const computedStyles = (style: any) => {
+    return {
+      position: "absolute",
+      top: styles.top || "0px", // Default to 0px if not defined
+      left: styles.left || "0px",
+      width: styles.width || "auto",
+      height: styles.height || "auto",
+      color: styles.color || "black",
+      fontFamily: styles.fontFamily,
     };
-  }, []);
+  };
 
   return (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: html,
-      }}
-    />
+    <main className="flex-1 h-screen mt-10 builder-line">
+      {text.map(({ text }, i) => {
+        // console.log(text.text.value);
+        return (
+          <div key={i} style={text.styles} className={cn(text.className, "")}>
+            {text.value}
+          </div>
+        );
+      })}
+    </main>
   );
 };
 

@@ -2,7 +2,8 @@ import mongoose, { Model } from "mongoose";
 
 const qrCodeSchema = new mongoose.Schema<QrCode>(
   {
-    id: { type: String, required: true }, //mongoose.Schema.Types.ObjectId, auto: true,
+    _id: { type: mongoose.Schema.Types.ObjectId, auto: true, required: true },
+    accessId: { type: String, required: true, unique: true },
     html: { type: String },
     title: { type: String, required: true },
     previewImage: { type: String },

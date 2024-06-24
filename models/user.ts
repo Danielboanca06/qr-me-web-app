@@ -13,6 +13,16 @@ const userSchema = new mongoose.Schema<User>(
     address: { type: String },
     postalCode: { type: String },
     emailToken: { type: String },
+    qrCodes: [
+      {
+        _id: { type: String, required: true },
+        accessId: { type: String, required: true },
+        title: { type: String, required: true },
+        previewImage: { type: String, default: null },
+        public: { type: Boolean, required: true, default: true },
+        updatedAt: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true }
 );

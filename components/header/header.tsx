@@ -61,7 +61,7 @@ const Header = ({ hasSession, headerType }: HeaderProps) => {
 
   return (
     <header
-      className="flex  justify-between items-center  h-28 static"
+      className="flex  justify-between items-center  h-[90px] relative"
       onMouseLeave={closeModal}
     >
       <Link href={"/"} className={cn("w-1/5 flex justify-center ml-5 md:ml-0")}>
@@ -143,7 +143,7 @@ const Header = ({ hasSession, headerType }: HeaderProps) => {
       {!hasSession && headerType !== "scan" && <AuthButtons />}
       {showModal.show && (
         <div
-          className={`absolute inset-0 z-1000  top-28 h-1/2 bottom-1/2 flex bg-black bg-opacity-50 backdrop-blur-sm  min-w-[150px]  ${animation}`}
+          className={`absolute inset-0 z-1000  top-[80px] h-[200px]  flex bg-black bg-opacity-50 backdrop-blur-sm  min-w-[150px]  ${animation}`}
         >
           <Button
             onClick={closeModal}
