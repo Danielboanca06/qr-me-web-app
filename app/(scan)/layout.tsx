@@ -9,7 +9,7 @@ export default async function Layout({
   const session = await auth();
   return (
     <>
-      <Header hasSession={!!session} headerType={"scan"} />
+      {/* <Header hasSession={!!session} headerType={"scan"} /> */}
       <main>{children}</main>
     </>
   );

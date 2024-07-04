@@ -1,9 +1,7 @@
 import { Form, FormControl } from "components/ui/form";
 import Image from "next/image";
-import { createQrCode } from "lib/actions/qr-code";
 
 export default async function Home() {
-  await createQrCode();
   return (
     <>
       <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-black-100">

@@ -174,7 +174,7 @@ const AuthForm = ({ type, email }: AuthFormProps) => {
       </header>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           {type !== "sign-up" && (
             <CustomInput
               control={form.control}
@@ -293,7 +293,7 @@ const AuthForm = ({ type, email }: AuthFormProps) => {
             </>
           )}
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col pt-5  gap-4">
             <Button
               type="submit"
               disabled={isLoading || disabled}

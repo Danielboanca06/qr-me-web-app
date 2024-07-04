@@ -37,7 +37,7 @@ export const sendEmail = async (email: string, token?: string) => {
       subject: "Hello ✔", // Subject line
       text: "Hello world?", // plain text body
       html: `<p>Get started creating your account ?</p>
-      <p>http://192.168.1.4:3005/sign-up/user-details/${token}</p>
+      <p>http://192.168.1.3:3005/sign-up/user-details/${token}</p>
       `, // html body
     });
     if (info.response) {

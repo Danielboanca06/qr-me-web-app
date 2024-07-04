@@ -25,8 +25,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>
+    <html lang="en" className="overscroll-y-none">
+      <body
+        className={`${inter.variable} ${ibmPlexSerif.variable} overscroll-y-none`}
+      >
         {children}
       </body>
     </html>
