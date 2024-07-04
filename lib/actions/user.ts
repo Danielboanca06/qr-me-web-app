@@ -92,21 +92,19 @@ export const signUserIn = async ({
   }
 };
 
-export const getUser = async (email: string) => {
+export async function getUser(email: string) {
   try {
     await connectToMongoDB();
-    const user = await UserModel.findOne({ email }).select("-password");
-
+    const user = await UserModel.findOne({ email }).lean();
     if (!user) {
-      return { status: 404, message: "No User Found" };
+      throw new Error("User not found");
     }
-
-    return { status: 200, user };
-  } catch (e) {
-    console.log("error getting user data by email");
-    return { status: 500 };
+    return { user };
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching user data");
   }
-};
+}
 
 // export const addQrCodeToUser = async (qr: QrCodePreview, userId: string) => {
 //   try {

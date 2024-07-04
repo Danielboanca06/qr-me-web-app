@@ -44,11 +44,13 @@ const ContentBoard = ({ data, type }: ContentBoardProps) => {
             return <DisplayCard key={content.id} content={content} />;
           }
         }
-        return (
-          <div key={`text-${content.id}`} id={`text-${content.id}`}>
-            <h1>{content.text}</h1>
-          </div>
-        );
+        if ("text" in content && content.active) {
+          return (
+            <div key={`text-${content.id}`} id={`text-${content.id}`}>
+              <h1>{content.text}</h1>
+            </div>
+          );
+        }
       })}
     </section>
   );

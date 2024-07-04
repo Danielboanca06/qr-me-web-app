@@ -23,7 +23,6 @@ const qrCodeSchema = new mongoose.Schema<QrCode>(
     previewImage: { type: String },
     owner: { type: String },
     ownerProfilePic: { type: String },
-    ownerUserName: { type: String },
     public: { type: Boolean, required: true },
     qrCode: { type: String, required: true },
   },

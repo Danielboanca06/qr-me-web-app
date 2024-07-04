@@ -57,12 +57,21 @@ export const {
       return token;
     },
     session: async ({ session, token }) => {
-      // here we put session.useData and put inside it whatever you want to be in the session
-      // here try to console.log(token) and see what it will have
-      // sometimes the user get stored in token.uid.userData
-      // sometimes the user data get stored in just token.uid
+      // Fetch user data
       const user = await getUser(session.user.email);
-      session.user = user.user;
+
+      // Handle case where user might be undefined
+      if (user && user.user) {
+        session.user = {
+          ...session.user,
+          id: user.user._id.toString(),
+          ...user.user, // Spread other user properties
+        };
+      } else {
+        // Handle the case where the user was not found
+        throw new Error("User not found");
+      }
+
       return session;
     },
   },

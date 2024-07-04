@@ -7,13 +7,13 @@ interface Custom {
 }
 
 const Custom = async ({ params: { id } }: Custom) => {
-  const { user } = await auth();
+  const user = await auth();
   if (!user) {
     redirect("/");
   } else {
     return (
       <section className="flex-center size-full overscroll-y-none">
-        <Create user={user} />
+        <Create user={user.user} />
       </section>
     );
   }
