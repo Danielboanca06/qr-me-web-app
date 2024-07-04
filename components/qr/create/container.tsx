@@ -15,7 +15,7 @@ const Container = () => {
   }, []);
 
   return (
-    <section className="content-container transform-all duration-1000 ">
+    <section className="content-container  ">
       {content.length === 0 && (
         <div className="animate-pulse animate-once flex flex-col items-center gap-10 opacity-20 mx-auto my-auto pb-20">
           <Image
