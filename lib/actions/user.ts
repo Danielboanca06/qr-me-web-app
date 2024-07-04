@@ -4,6 +4,7 @@ import connectToMongoDB from "lib/db";
 import bcrypt from "bcryptjs";
 import { signIn } from "auth";
 import VerifyEmail from "models/verifyEmail";
+import { createQrCode } from "./qr-code";
 
 export const createUser = async (
   user: SignUpParams
@@ -35,6 +36,7 @@ export const createUser = async (
   try {
     await VerifyEmail.deleteOne({ email });
     await newUser.save();
+    await createQrCode(newUser.username);
     try {
       await signIn("credentials", {
         email: email!,
@@ -106,23 +108,23 @@ export const getUser = async (email: string) => {
   }
 };
 
-export const addQrCodeToUser = async (qr: QrCodePreview, userId: string) => {
-  try {
-    await connectToMongoDB();
+// export const addQrCodeToUser = async (qr: QrCodePreview, userId: string) => {
+//   try {
+//     await connectToMongoDB();
 
-    const updatedUser = await UserModel.findByIdAndUpdate(
-      userId,
-      { $push: { qrCodes: qr } },
-      { new: true, upsert: true }
-    );
+//     const updatedUser = await UserModel.findByIdAndUpdate(
+//       userId,
+//       { $push: { qrCodes: qr } },
+//       { new: true, upsert: true }
+//     );
 
-    if (!updatedUser) {
-      throw new Error("User not found");
-    }
+//     if (!updatedUser) {
+//       throw new Error("User not found");
+//     }
 
-    return { status: 200, message: "success" };
-  } catch (e) {
-    console.error("Error adding QR code to user:", e);
-    return { status: 500, message: "Internal server error" };
-  }
-};
+//     return { status: 200, message: "success" };
+//   } catch (e) {
+//     console.error("Error adding QR code to user:", e);
+//     return { status: 500, message: "Internal server error" };
+//   }
+// };

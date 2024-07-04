@@ -54,6 +54,16 @@ type VerifyEmailTokenResult = {
   error: boolean;
 };
 
+export const validLinkSchema = z.object({
+  url: z.union([
+    z.string().url({ message: "Please enter a valid URL" }),
+    z.string().length(0),
+  ]),
+});
+
+export const genId =
+  Date.now().toString(36) + Math.random().toString(36).substring(2);
+
 export const verifyEmailToken = (): VerifyEmailTokenResult => {
   "use client";
   let email = "";
@@ -79,4 +89,71 @@ export const verifyEmailToken = (): VerifyEmailTokenResult => {
 
     error,
   };
+};
+
+export function downloadImage(
+  dataUrl: string,
+  name: string,
+  format: "png" | "svg"
+) {
+  // Ensure the file name has the correct extension
+  const extension = format === "svg" ? ".svg" : ".png";
+  if (!name.toLowerCase().endsWith(extension)) {
+    name += extension;
+  }
+
+  // Check if the format is SVG
+  if (format === "svg") {
+    // Convert PNG data URL to SVG data URL
+    const svgData = `
+     <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+       <image href="${dataUrl}" x="0" y="0" width="200" height="200"/>
+     </svg>`;
+    const svgDataUrl =
+      "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgData);
+
+    // Create a link element and trigger download for SVG
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = svgDataUrl;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } else {
+    // Convert data URL to Blob for PNG
+    const byteString = atob(dataUrl.split(",")[1]);
+    const mimeString = dataUrl.split(",")[0].split(":")[1].split(";")[0];
+
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    const blob = new Blob([ab], { type: mimeString });
+
+    // Create a link element and trigger download for PNG
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    // Release the object URL to free up memory
+    window.URL.revokeObjectURL(url);
+  }
+
+  return Promise.resolve();
+}
+
+export const copyClick = async (textToCopy: string): Promise<boolean> => {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(textToCopy);
+    return true;
+  }
+  return false;
 };

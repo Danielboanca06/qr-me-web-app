@@ -1,5 +1,5 @@
 "use client";
-import QrCard from "components/ui/qrCard";
+import QrCard from "components/qr/qrCard";
 interface UserPreviewCodesProps {
   session: User;
 }

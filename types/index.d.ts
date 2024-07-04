@@ -54,7 +54,7 @@ declare interface User {
   postalCode?: string;
   shoppingPreference: "Men's" | "Women's";
   emailToken?: string;
-  qrCodes?: QrCodePreview[];
+  // content?: QrCode[];
 }
 
 /* Qr Code */
@@ -67,15 +67,35 @@ declare type QrCodePreview = {
   updatedAt: moongose.Date;
 };
 
-declare type QrCode = {
+declare type PageLinks = {
+  id: string;
+  title: string;
+  link: string;
+  active: boolean;
+  layout: string;
+  thumbnail: string;
+};
+declare type PageText = {
+  id: string;
+  text: string;
+  active: boolean;
+};
+declare interface QrCode {
   _id: mongoose.Schema.Types.ObjectId;
   accessId: string; // !under 8 char long simplify qr code!
-  html?: React.ReactNode;
-  title: string;
+  content?: Array<PageLinks | PageText>;
+  bio: string;
   previewImage?: string;
-  owner?: string; // the users email
+  owner?: string; // the username
+  ownerProfilePic?: string;
+  bio?: string;
   public: boolean;
   creaded_at: moongose.Date;
   updatedAt: moongose.Date;
   qrCode: string;
+}
+declare type ImageDataType = {
+  _id: mongoose.Schema.Types.ObjectId;
+  name: string;
+  image: string;
 };

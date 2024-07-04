@@ -1,9 +1,10 @@
 "use server";
 import connectToMongoDB from "lib/db";
 import QrCodeModel from "models/qrCode";
+import UserModel from "models/user";
 import { toDataURL } from "qrcode";
 
-export const createQrCode = async () => {
+export const createQrCode = async (username: string) => {
   await connectToMongoDB();
   const url = "http://192.168.1.4:3005/scan-qr/6672ecd8bd5fbdb94e55a79b";
 
@@ -17,32 +18,23 @@ export const createQrCode = async () => {
       width: 210,
     });
 
-    const data = {
-      id: "6672ecd8bd5fbdb94e55a79b", // change this
-      accessId: "lxn3nu53",
-      html: "",
-      owner: "",
-      title: "Claim This Qr Code",
+    const qrCode = {
+      accessId: accessId,
+      bio: "",
+      owner: username,
       previewImage: "",
       public: true,
+      ownerProfilePic: "",
       creaded_at: undefined,
       updatedAt: undefined,
-      qrCode: code || "h",
+      content: [],
+      qrCode: code,
     };
 
     try {
-      // const code = new QrCodeModel(data);
-      await QrCodeModel.findOneAndUpdate(
-        { _id: data.id },
-        { qrCode: data.qrCode, accessId: data.accessId },
+      const qr = await new QrCodeModel(qrCode);
 
-        {
-          // under construction
-          new: true,
-          upsert: true,
-        }
-      );
-      // await code.save();
+      await qr.save();
       console.log("Qr Created successfully");
       return { status: 200 };
     } catch (e) {
@@ -55,15 +47,23 @@ export const createQrCode = async () => {
   }
 };
 
-export const getQrCode = async (accessId: string) => {
+export const getScanQrCode = async (accessId: string) => {
   await connectToMongoDB();
   //send the owner a notificaton saying sombody viewed there code;
   try {
-    const qr = await QrCodeModel.findOne({ accessId: accessId });
+    let qr = await QrCodeModel.findOne({ accessId: accessId });
+
     if (!qr) {
-      throw new Error("QR code not found");
+      const data = await QrCodeModel.findOne({ owner: accessId });
+
+      if (data) {
+        return { status: 200, body: JSON.stringify(data) };
+      } else {
+        console.log("Error getting qr code from db");
+      }
     }
-    return { status: 200, body: qr };
+
+    return { status: 200, body: JSON.stringify(qr) };
   } catch (e) {
     console.log("Error getting qr code from db", e);
   }
@@ -86,34 +86,47 @@ export const updateQrCode = async (qrData: QrCode) => {
   }
 };
 
-export const verifyQrWithEmail = async (qrId: string, email: string) => {
+export const updatedQrPageContent = async (
+  owner: string,
+  data: Array<PageText | PageLinks>
+) => {
+  await connectToMongoDB();
   try {
-    const data = await QrCodeModel.findById(qrId);
-    if (!data) {
-      return { status: 404, message: "not found" };
-    } else {
-      console.log(data);
-      if (data.owner === email) {
-        return {
-          status: 200,
-          message: "success this users owns this qr-code",
-          data: data,
-        };
-      }
-      return { status: 401, message: "unauthorized to access this qr code" };
+    const updatedQrCode = await QrCodeModel.findOneAndUpdate(
+      { owner: owner },
+      { content: data },
+      { new: true }
+    );
+
+    if (!updatedQrCode) {
+      throw new Error("QR code not found");
     }
+    return { status: 200, message: "success" };
   } catch (error) {
-    console.log("error verifying qr with email", error);
-    return { status: 500, message: "internal error verifying qr with email" };
+    console.error("Error updating QR code:", error);
+    return { status: 500, message: "Internal server error" };
   }
 };
 
-export const updateHtml = async (html: string, qrCodeId: string) => {
+export const getQrWithUserName = async (username: string) => {
+  await connectToMongoDB();
   try {
-    const updatedQrCode = await QrCodeModel.findByIdAndUpdate(qrCodeId, {
-      html: html,
-    });
+    const data = await QrCodeModel.findOne({ owner: username });
+
+    if (!data) {
+      return { status: 404, message: "QR code not found" };
+    }
+
+    return {
+      status: 200,
+      message: "Success: this user owns this QR code",
+      data: JSON.stringify(data),
+    };
   } catch (error) {
-    console.log("error");
+    console.error("Error verifying QR code with email", error);
+    return {
+      status: 500,
+      message: "Internal error verifying QR code with email",
+    };
   }
 };

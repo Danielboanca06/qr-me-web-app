@@ -26,7 +26,7 @@ export const NavBar = ({
           "hidden xl:flex justify-evenly  w-2/5   ": !dropDown,
         },
         {
-          "flex flex-row absolute top-[75px] w-full bg-white-100":
+          "flex flex-row absolute top-[50px] w-full bg-white-100":
             type === "userOptions",
         }
       )}
@@ -75,7 +75,7 @@ export const NavBar = ({
             </Link>
           </li>
           <li>
-            <Link href={"/qr"} className="icon-highlight">
+            <Link href={"/qr/customize"} className="icon-highlight">
               <QrCode
                 color={currentRoute.includes("qr") ? "#9A2CF6" : "#5077F5"}
               />

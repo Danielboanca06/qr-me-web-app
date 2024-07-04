@@ -1,4 +1,4 @@
-import mongoose, { Model } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
 const userSchema = new mongoose.Schema<User>(
   {
@@ -13,16 +13,36 @@ const userSchema = new mongoose.Schema<User>(
     address: { type: String },
     postalCode: { type: String },
     emailToken: { type: String },
-    qrCodes: [
-      {
-        _id: { type: String, required: true },
-        accessId: { type: String, required: true },
-        title: { type: String, required: true },
-        previewImage: { type: String, default: null },
-        public: { type: Boolean, required: true, default: true },
-        updatedAt: { type: Date, default: Date.now },
-      },
-    ],
+    // content: {
+    //   type: [
+    //     {
+    //       type: new Schema(
+    //         {
+    //           id: { type: String, required: true },
+    //           title: { type: String },
+    //           link: { type: String },
+    //           active: { type: Boolean, required: true },
+    //           layout: { type: String, required: true },
+    //           thumbnail: { type: String },
+    //         },
+    //         { _id: false }
+    //       ),
+    //       required: false,
+    //     },
+    //     {
+    //       type: new Schema(
+    //         {
+    //           id: { type: String, required: true },
+    //           text: { type: String },
+    //           active: { type: Boolean, required: true },
+    //         },
+    //         { _id: false }
+    //       ),
+    //       required: false,
+    //     },
+    //   ],
+    //   required: false,
+    // },
   },
   { timestamps: true }
 );
