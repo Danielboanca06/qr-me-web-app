@@ -231,6 +231,7 @@ const CreateCard = ({ content, dragHandleProps }: CreateCardProps) => {
               const isActive = showOption === option;
               return (
                 <Button
+                  key={option}
                   onClick={() => handleDropDownClick(option)}
                   variant={"ghost"}
                   size={"icon"}
@@ -252,13 +253,13 @@ const CreateCard = ({ content, dragHandleProps }: CreateCardProps) => {
                       color={isActive ? "white" : "black"}
                     />
                   )}
-                  {option === "lock" && (
+                  {/* {option === "lock" && (
                     <LockKeyhole
                       size={20}
                       strokeWidth={1.5}
                       color={isActive ? "white" : "black"}
                     />
-                  )}
+                  )} */}
                   {option === "qrCode" && (
                     <QrCode size={20} strokeWidth={1.5} />
                   )}

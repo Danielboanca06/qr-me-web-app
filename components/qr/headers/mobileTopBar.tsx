@@ -16,19 +16,15 @@ const MobileTopBar = ({ user }: MobileTopBarProps) => {
           <Image src="/logo_1.svg" width={30} height={30} alt="Qr Me Logo" />
         </Link>
         <div className="flex gap-5 items-center">
-          <Button variant={"ghost"} size="icon" className="w-10 h-10 ">
+          <Button variant={"ghost"} size="icon" className="mt-1 w-10 h-10 ">
             <CircleUserRound color="black" size={32} />
           </Button>
 
           <Sheet>
             <SheetTrigger>
-              <Button
-                variant={"outline"}
-                size="sm"
-                className="flex gap-2 items-center text-[16px] font-semibold "
-              >
+              <div className="self-start border-2 hover:bg-scrim-100 rounded-3xl shadow-2xl gap-2 text-[16px] h-10 mt-1  px-8  inline-flex items-center justify-center whitespace-nowrap  text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
                 <Share color="black" size={20} /> Share
-              </Button>
+              </div>
             </SheetTrigger>
             <SheetContent
               side="right"
