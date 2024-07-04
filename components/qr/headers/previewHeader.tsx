@@ -9,13 +9,9 @@ const PreviewHeader = () => {
     <div className="flex justify-end w-full">
       <Sheet>
         <SheetTrigger>
-          <Button
-            variant={"outline"}
-            size={"lg"}
-            className="flex self-start rounded-3xl shadow-2xl gap-2 text-[16px]"
-          >
+          <div className="self-start border-2 hover:bg-scrim-100 rounded-3xl shadow-2xl gap-2 text-[16px] h-11  px-8  inline-flex items-center justify-center whitespace-nowrap  text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
             <Share color="black" size={20} /> Share
-          </Button>
+          </div>
         </SheetTrigger>
         <SheetContent
           side="right"
