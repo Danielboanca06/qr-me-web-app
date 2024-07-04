@@ -9,7 +9,6 @@ interface ContentBoardProps {
 }
 
 const ContentBoard = ({ data, type }: ContentBoardProps) => {
-  console.log(data);
   return (
     <section
       className={cn(
@@ -42,14 +41,14 @@ const ContentBoard = ({ data, type }: ContentBoardProps) => {
       {data?.content?.map((content) => {
         if ("link" in content && content.active) {
           if (content.link || content.thumbnail || content.title) {
-            return <DisplayCard content={content} />;
+            return <DisplayCard key={content.id} content={content} />;
           }
         }
-        // return (
-        //   <div key={`text-${content.id}`} id={`text-${content.id}`}>
-        //     <h1>{content.text}</h1>
-        //   </div>
-        // );
+        return (
+          <div key={`text-${content.id}`} id={`text-${content.id}`}>
+            <h1>{content.text}</h1>
+          </div>
+        );
       })}
     </section>
   );
