@@ -5,49 +5,13 @@ import { useEffect, useState } from "react";
 import { cn } from "lib/utils";
 import { Sheet, SheetContent, SheetTitle } from "components/ui/sheet";
 import { useBoardState } from "../boardStateContext";
+import Resizer from "react-image-file-resizer";
 
 interface ThumbnailProps {
   id: string;
   onBlur: () => void;
   thumbnailImg: string;
   show: boolean;
-}
-
-function resizeImage(file: Blob, callback: Function) {
-  const reader = new FileReader();
-  reader.onload = function (event) {
-    const img = new Image();
-    img.onload = function () {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-
-      // Calculate the new dimensions maintaining aspect ratio
-      let width = 100;
-      let height = 100;
-      const aspectRatio = img.width / img.height;
-      if (img.width > img.height) {
-        height = Math.round(width / aspectRatio);
-      } else {
-        width = Math.round(height * aspectRatio);
-      }
-
-      // Set canvas dimensions to target size
-      canvas.width = width;
-      canvas.height = height;
-
-      // Draw image to canvas
-      ctx?.drawImage(img, 0, 0, width, height);
-
-      // Convert canvas to Blob
-      canvas.toBlob(function (blob) {
-        // Pass the resized Blob to the callback function
-        callback(blob);
-      }, file.type); // Use original file type for Blob
-    };
-    //@ts-ignore
-    img.src = event?.target.result;
-  };
-  reader.readAsDataURL(file);
 }
 
 const Thumbnail = ({ id, onBlur, show, thumbnailImg }: ThumbnailProps) => {
@@ -64,6 +28,25 @@ const Thumbnail = ({ id, onBlur, show, thumbnailImg }: ThumbnailProps) => {
     }
   }, [thumbnailImg]);
 
+  const resize = (file: Blob) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        300,
+        200,
+        "JPEG",
+        100,
+        0,
+        (uri) => {
+          //@ts-ignore
+          setUploadData(uri || "");
+        },
+        "base64",
+        100,
+        100
+      );
+    });
+
   const handleUploadSelect = () => {
     setModalOption("native-upload");
   };
@@ -73,22 +56,21 @@ const Thumbnail = ({ id, onBlur, show, thumbnailImg }: ThumbnailProps) => {
 
   const handleChange = async (ev: React.ChangeEvent) => {
     setLoading(true);
-    //@ts-ignore
-    resizeImage(ev.target?.files[0]!, function (resizedBlob: any) {
-      // 'resizedBlob' is the resized image Blob
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        //@ts-ignore
-        setUploadData(reader.result);
-      };
+
+    try {
       //@ts-ignore
-      reader.readAsDataURL(resizedBlob);
+      const file = ev.target.files[0];
+      const image = await resize(file);
       setLoading(false);
-    });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleClear = () => {
     setUploadData("");
+    updateLink({ id, thumbnail: "" });
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -118,7 +100,13 @@ const Thumbnail = ({ id, onBlur, show, thumbnailImg }: ThumbnailProps) => {
     setUploadData("");
     updateLink({ id, thumbnail: "" });
     setModal(false);
+    setLoading(false);
     onBlur();
+  };
+
+  const onChangeClick = () => {
+    handleUploadSelect();
+    setModal(true);
   };
 
   return (
@@ -145,12 +133,13 @@ const Thumbnail = ({ id, onBlur, show, thumbnailImg }: ThumbnailProps) => {
         <div className="flex mx-5 justify-center items-center gap-5">
           <img
             //@ts-ignore
-            src={uploadData || "st"}
+            src={uploadData || ""}
             alt="Uploaded Image"
             className="size-[100px] rounded-lg max-w-full mx-auto"
           />
           <div className="flex flex-col grow gap-2">
             <Button
+              onClick={onChangeClick}
               size={"wide"}
               className="text-white-100 text-[16px] rounded-full"
             >

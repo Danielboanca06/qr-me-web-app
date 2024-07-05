@@ -1,8 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { sidebarLinks } from "lib/constants";
 import { cn } from "lib/utils";
-import { Link2, Lock, Palette, Bolt, CircleUserRound } from "lucide-react";
+import { Link2, Lock, Palette, Bolt } from "lucide-react";
 
 interface MobileMenuBarProps {
   user: User;
@@ -13,7 +12,7 @@ const MobileMenuBar = ({ user }: MobileMenuBarProps) => {
     <section className="mobile-bar">
       <nav className="flex items-center justify-evenly  w-full  gap-4">
         {sidebarLinks.map((item, i) => {
-          const isActive = i === 1;
+          const isActive = i === 0;
 
           return (
             <Link

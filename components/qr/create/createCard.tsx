@@ -261,7 +261,11 @@ const CreateCard = ({ content, dragHandleProps }: CreateCardProps) => {
                     />
                   )} */}
                   {option === "qrCode" && (
-                    <QrCode size={20} strokeWidth={1.5} />
+                    <QrCode
+                      size={20}
+                      strokeWidth={1.5}
+                      color={isActive ? "white" : "black"}
+                    />
                   )}
                   {option === "clicks" && (
                     <MousePointerClick
@@ -296,7 +300,7 @@ const CreateCard = ({ content, dragHandleProps }: CreateCardProps) => {
       {isPageLinks(content) && (
         <div
           className={cn(
-            "overflow-hidden delay-75 transition-all duration-800 animate-ease-linear",
+            "overflow-hidden delay-75 transition-all duration-800 w-full h-full animate-ease-linear ",
             showOption ? "max-h-[1000px]" : "max-h-0"
           )}
         >
@@ -316,45 +320,46 @@ const CreateCard = ({ content, dragHandleProps }: CreateCardProps) => {
       )}
       <div
         className={cn(
-          "overflow-hidden delay-75 transition-all duration-800 animate-ease-linear",
+          "overflow-hidden delay-75 transition-all duration-800 animate-ease-linear flex w-full h-full",
           showOption ? "max-h-[1000px]" : "max-h-0"
         )}
       >
         {showOption === "delete" && (
           <div className="flex flex-col w-full gap-2 pb-5 animate-fade">
-            <div className="bg-scrim-200 flex items-center justify-center h-11 rounded-md">
-              <h1 className="text-16 font-semibold  text-center pl-5 mx-auto">
-                Delete
-              </h1>
+            <div className="bg-scrim-200 flex items-center justify-center  h-11 rounded-md">
+              <h1 className="text-16 font-semibold pl-5 mx-auto">Delete</h1>
               <Button
                 onClick={handleCloseDropDown}
                 variant={"ghost"}
                 size={"icon"}
-                className="w-10 h-100 static  hover:bg-scrim-100"
+                className="w-10 h-10  hover:bg-scrim-100"
               >
                 &times;
               </Button>
             </div>
-            <div className="flex pt-5 w-full justify-around text-14 ">
-              <div className="flex flex-col items-center">
+            <div className="flex pt-5 w-full justify-around text-14  ">
+              <div className="flex flex-col items-center ">
                 <Button
                   onClick={handleDeleteClick}
                   variant={"outline"}
-                  size={"lg"}
-                  className="gap-2 rounded-xl "
+                  className="flex gap-2 rounded-xl "
                 >
                   <Trash2 />
                   Delete
                 </Button>
                 <p className="opacity-50">Delete Forever.</p>
               </div>
-              <div className="flex flex-col items-center ">
+              <div className="flex flex-col items-center  ">
                 <Button
-                  size={"lg"}
-                  className="gap-2 w-full rounded-xl  text-white-100"
+                  className="flex gap-2 w-full rounded-xl  text-white-100"
+                  onClick={() =>
+                    alert(
+                      "❗Sorry This Feature is not available yet❗ \n 👷Comming Soon👷"
+                    )
+                  }
                 >
                   <Import />
-                  Archive {"  "} 🚧🛠️!Comming Soon!🛠️🚧
+                  Archive
                 </Button>
                 <p className="opacity-50">
                   Reduce clutter, and restore anytime.

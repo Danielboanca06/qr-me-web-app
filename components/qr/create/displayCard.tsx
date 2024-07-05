@@ -7,6 +7,31 @@ interface DisplayCardProps {
 }
 
 const DisplayCard = ({ content }: DisplayCardProps) => {
+  if (content.layout === "featured") {
+    return (
+      <Link
+        className={cn(
+          "flex relative items-center w-full max-w-[300px] max-h-[200px]  h-full bg-tertiary-100  rounded-3xl shadow-full"
+        )}
+        key={`link-${content.id}`}
+        id={`link-${content.id}`}
+        href={content.link}
+      >
+        {content.thumbnail && (
+          <Image
+            src={JSON.parse(content?.thumbnail)}
+            alt="Link Thumbnail"
+            width={40}
+            height={40}
+            className="w-full z-5 h-full  rounded-3xl border-2 border-black-100"
+          />
+        )}
+        <div className=" absolute bottom-2 px-5 z-10 flex-1 flex justify-center">
+          <h1 className="text-white-100 text-14">{content.title}</h1>
+        </div>
+      </Link>
+    );
+  }
   return (
     <Link
       className={cn(

@@ -1,3 +1,4 @@
+export const url = "https://qrmee.vercel.app/"; // http://192.168.1.{replacewithnumber}:3005/
 export const sidebarLinks = [
   {
     route: "/",

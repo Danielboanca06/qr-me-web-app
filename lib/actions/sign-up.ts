@@ -5,6 +5,7 @@ import connectToMongoDB from "lib/db";
 import { randomUUID } from "crypto";
 import nodemailer from "nodemailer";
 import VerifyEmail from "models/verifyEmail";
+import { url } from "lib/constants";
 
 const transporter = nodemailer.createTransport({
   service: process.env.NODEMIALER_SERVICE,
@@ -37,7 +38,7 @@ export const sendEmail = async (email: string, token?: string) => {
       subject: "Hello ✔", // Subject line
       text: "Hello world?", // plain text body
       html: `<p>Get started creating your account ?</p>
-      <p>http://192.168.1.3:3005/sign-up/user-details/${token}</p>
+      <p>${url}sign-up/user-details/${token}</p>
       `, // html body
     });
     if (info.response) {
@@ -95,8 +96,6 @@ export const validateEmailToken = async (token: string) => {
     const oneTimeAccsessToken = await VerifyEmail.findOne({
       token: token,
     });
-
-    console.log(!!oneTimeAccsessToken);
 
     if (!!oneTimeAccsessToken) {
       return { status: 200, email: oneTimeAccsessToken.email };

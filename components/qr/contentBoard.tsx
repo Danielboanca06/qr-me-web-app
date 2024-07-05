@@ -47,7 +47,7 @@ const ContentBoard = ({ data, type }: ContentBoardProps) => {
         if ("text" in content && content.active) {
           return (
             <div key={`text-${content.id}`} id={`text-${content.id}`}>
-              <h1>{content.text}</h1>
+              <h1 className="text-white-100">{content.text}</h1>
             </div>
           );
         }

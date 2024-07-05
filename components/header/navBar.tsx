@@ -35,7 +35,7 @@ export const NavBar = ({
         <>
           <ul
             className={cn(
-              "list-none flex w-full justify-evenly pl-10  h-[85%] ",
+              "list-none flex w-full justify-evenly xl:items-center items-start py-5 gap-5 pl-10  h-full ",
               {
                 "flex-col text-20": dropDown,
               }

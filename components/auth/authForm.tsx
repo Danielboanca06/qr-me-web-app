@@ -207,16 +207,18 @@ const AuthForm = ({ type, email }: AuthFormProps) => {
                       label="Last Name"
                       placeholder="Last name"
                     />
-                    <CustomInput
-                      control={form.control}
-                      name="username"
-                      label="Username"
-                      placeholder="Enter your username"
-                    />
                   </div>
                 </>
               )}
 
+              {type === "sign-up" && (
+                <CustomInput
+                  control={form.control}
+                  name="username"
+                  label="Username"
+                  placeholder="Enter your username"
+                />
+              )}
               <CustomInput
                 control={form.control}
                 name="password"

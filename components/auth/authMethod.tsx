@@ -13,8 +13,11 @@ const AuthMethod = () => {
       case "Email":
         router.push("/sign-up/email-form");
       case "Apple":
+
       case "Google":
+
       default:
+        router.push("/sign-up/email-form");
         break;
     }
   };

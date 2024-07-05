@@ -2,19 +2,15 @@
 import Image from "next/image";
 import { Button } from "../ui";
 import SearchBar from "../searchBar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import {
   Search as SearchIcon,
   ShoppingBasket,
   Menu,
   X,
-  QrCode,
   UserRound,
-  Bell,
-  Send,
   Settings,
-  Home,
   ChevronLeft,
 } from "lucide-react";
 import { cn } from "lib/utils";
@@ -65,7 +61,7 @@ const Header = ({ hasSession, headerType }: HeaderProps) => {
   return (
     <header
       className={cn(
-        "flex  justify-between h-min   relative ",
+        "flex  justify-between h-min  items-center relative rounded-full border shadow-2xl ",
         pathname.includes("/qr/customize/") && "absolute z-1000"
       )}
       onMouseLeave={closeModal}
@@ -119,7 +115,7 @@ const Header = ({ hasSession, headerType }: HeaderProps) => {
         )} */}
 
             {hasSession && (
-              <Link href={"/home"} className="icon-highlight">
+              <Link href={"/qr/customize"} className="icon-highlight">
                 <UserRound size={25} />
               </Link>
             )}
@@ -169,7 +165,7 @@ const Header = ({ hasSession, headerType }: HeaderProps) => {
           {!hasSession && headerType !== "scan" && <AuthButtons />}
           {showModal.show && (
             <div
-              className={`absolute inset-0 z-1000  top-[47px] h-[200px]  flex bg-black bg-opacity-50 backdrop-blur-sm  min-w-[150px]  ${animation}`}
+              className={`absolute inset-0  top-[50px] xl:top-[65px] h-[200px] transform-all ease-linear flex  bg-opacity-50  border rounded-3xl shadow-2xl  min-w-[150px]  ${animation}`}
             >
               <Button
                 onClick={closeModal}
@@ -187,7 +183,7 @@ const Header = ({ hasSession, headerType }: HeaderProps) => {
 
               {/* Search Bar Drop-Down*/}
               {showModal.type === "search" && (
-                <div className="flex  bg-white-100 w-full rounded-b-2xl  ">
+                <div className="flex  bg-white-100 w-full rounded-b-2xl ">
                   <SearchBar />
                   {/* Have freqently searched items here */}
                 </div>
@@ -195,9 +191,12 @@ const Header = ({ hasSession, headerType }: HeaderProps) => {
               {/* Menu Drop-Down*/}
               {showModal.type === "menu" && (
                 <div
-                  className={cn("flex  bg-white-100 w-full rounded-b-2xl", {
-                    "xl:hidden": headerType !== "scan",
-                  })}
+                  className={cn(
+                    "flex  bg-white-100 w-full  h-fit  rounded-b-2xl",
+                    {
+                      "xl:hidden": headerType !== "scan",
+                    }
+                  )}
                 >
                   <NavBar dropDown hasSession={hasSession} />
                 </div>

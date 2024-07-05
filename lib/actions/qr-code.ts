@@ -1,18 +1,19 @@
 "use server";
+import { url } from "lib/constants";
 import connectToMongoDB from "lib/db";
 import QrCodeModel from "models/qrCode";
-import UserModel from "models/user";
 import { toDataURL } from "qrcode";
 
 export const createQrCode = async (username: string) => {
   await connectToMongoDB();
-  const url = "http://192.168.1.4:3005/scan-qr/6672ecd8bd5fbdb94e55a79b";
 
   const accessId =
     Date.now().toString(36) + Math.random().toString(36).substring(13);
 
   try {
-    const code = await toDataURL(url, {
+    const u = url + "scan/" + username;
+    console.log(u);
+    const code = await toDataURL(u, {
       errorCorrectionLevel: "L",
       type: "image/png",
       width: 210,

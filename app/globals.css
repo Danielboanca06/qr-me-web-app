@@ -176,7 +176,7 @@ body {
   }
 
   .form-item {
-    @apply flex flex-col gap-1.5;
+    @apply flex flex-col my-5 gap-1.5;
   }
 
   .form-label {

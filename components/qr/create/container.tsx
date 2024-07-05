@@ -17,7 +17,7 @@ const Container = () => {
   return (
     <section className="content-container  ">
       {content.length === 0 && (
-        <div className="animate-pulse animate-once flex flex-col items-center gap-10 opacity-20 mx-auto my-auto pb-20">
+        <div className="animate-pulse animate-once flex flex-col items-center gap-10  opacity-20 mx-auto my-auto pb-20">
           <Image
             src={"/logo_1_black.svg"}
             width={100}

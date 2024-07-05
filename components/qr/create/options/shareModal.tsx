@@ -10,6 +10,7 @@ import { useBoardState } from "../boardStateContext";
 import Image from "next/image";
 import { downloadImage, copyClick, cn } from "lib/utils";
 import { useState } from "react";
+import { url } from "lib/constants";
 
 const ShareModal = () => {
   const { qrData } = useBoardState();
@@ -26,7 +27,7 @@ const ShareModal = () => {
   }
   const handleCopyClick = async () => {
     try {
-      const copy = await copyClick(`qr.me/${qrData.owner}`);
+      const copy = await copyClick(`${url}scan/${qrData.owner}`);
       if (copy) {
         setIsCopied(true);
       }
@@ -112,7 +113,7 @@ const ShareModal = () => {
         onClick={handleCopyClick}
       >
         <Image src="/logo_1.png" width={50} height={50} alt="Qr Me Logo" />
-        <h1 className="mx-auto">{`qr.me/${qrData.owner}`}</h1>
+        <h1 className="mx-auto">{`qrmee/${qrData.owner}`}</h1>
         <h1
           className={cn("animate-fade text-black-100", {
             "text-green-500": isCopied,

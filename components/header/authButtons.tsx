@@ -6,9 +6,11 @@ export const AuthButtons = ({ dropDown }: { dropDown?: boolean }) => {
     <div
       className={cn(
         {
-          "flex justify-center space-x-5 md:space-x-20 px-2": dropDown,
+          "flex justify-center space-x-5 md:space-x-20  px-2 ": dropDown,
         },
-        { "w-1/5 gap-2 pr-10 min-w-[220px] xl:flex hidden": !dropDown }
+        {
+          "w-1/5 gap-2 pr-10 min-w-[220px] xl:flex hidden h-10  ": !dropDown,
+        }
       )}
     >
       <Link

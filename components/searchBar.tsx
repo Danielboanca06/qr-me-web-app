@@ -11,13 +11,13 @@ const SearchBar = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div
         className={cn(
-          "bg-scrim-100 flex items-center z-20 transition-width duration-300   w-3/5"
+          " flex items-center z-20 transition-width duration-300 mx-auto my-auto w-[85%] rouned-full "
         )}
       >
         <Input
           {...props}
           className={cn(
-            "pl-10 rounded-none text-20 focus-visible:ring-0 focus-visible:ring-offset-0  md:block focus:outline-none focus:ring-0  placeholder:text-20 "
+            "pl-10 bg-scrim-100   text-20 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-3xl  md:block focus:outline-none focus:ring-0  outline-none placeholder:text-20 "
           )}
           placeholder="Search"
           ref={ref}
