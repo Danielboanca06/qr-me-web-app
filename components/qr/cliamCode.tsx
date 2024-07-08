@@ -51,7 +51,7 @@ const CliamCode = ({ qrCode, session, codeId }: CliamCodeProps) => {
     <div className="flex flex-col items-center min-w-[200px] gap-10 xl:gap-28">
       <h1 className="sub-header-text font-bold">Claim This QR Me Code</h1>
 
-      <div className="flex flex-col xl:flex-row items-center gap-8">
+      {/* <div className="flex flex-col xl:flex-row items-center gap-8">
         <Image
           src={qrCode?.qrCode || "/logo_2.svg"}
           width={200}
@@ -72,7 +72,7 @@ const CliamCode = ({ qrCode, session, codeId }: CliamCodeProps) => {
             </div>
           </>
         )}
-      </div>
+      </div> */}
 
       <p className="text-center ">
         Own this QR code <br /> to start customizing it
