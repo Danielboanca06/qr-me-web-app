@@ -3,25 +3,19 @@ import { cn } from "lib/utils";
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 
 import { sidebarLinks } from "lib/constants";
 
-import {
-  Link2,
-  Lock,
-  Palette,
-  Bolt,
-  CircleUserRound,
-  ChevronLeft,
-} from "lucide-react";
+import { Link2, Lock, Palette, Bolt, CircleUserRound } from "lucide-react";
 import { Button } from "components/ui";
+import { useSearchParams } from "next/navigation";
 
 interface MenuBarProps {
   user: User;
 }
 
 const MenuBar = ({ user }: MenuBarProps) => {
+  const params = useSearchParams();
   return (
     <section className="sidebar">
       {/* <div className="absolute z-50 top-1 right-[-60px] hidden xl:block">
@@ -47,11 +41,13 @@ const MenuBar = ({ user }: MenuBarProps) => {
         </Link>
 
         {sidebarLinks.map((item, i) => {
-          const isActive = i === 0;
+          const isActive = item.route === params.get("tab");
 
           return (
-            <Link
-              href={item.route}
+            <button
+              onClick={() =>
+                window.history.pushState({ item }, "", `?tab=${item.route}`)
+              }
               key={item.label}
               className={cn(
                 "sidebar-link",
@@ -82,7 +78,7 @@ const MenuBar = ({ user }: MenuBarProps) => {
               >
                 {item.label}
               </p>
-            </Link>
+            </button>
           );
         })}
       </nav>

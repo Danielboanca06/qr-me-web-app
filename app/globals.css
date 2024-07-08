@@ -240,7 +240,7 @@ body {
     @apply flex h-16 items-center p-0 shadow-2xl rounded-br-3xl rounded-bl-3xl   md:hidden;
   }
   .mobile-bar {
-    @apply sticky flex w-full h-full;
+    @apply sticky flex w-full h-fit py-5;
   }
   .mobile-link {
     @apply flex flex-col justify-center gap-[2px] items-center h-full;

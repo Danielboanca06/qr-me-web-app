@@ -1,19 +1,19 @@
-export const url = "https://qrmee.vercel.app/"; // http://192.168.1.{replacewithnumber}:3005/
+export const url = "http://192.168.1.3:3005/"; //"https://qrmee.vercel.app/"; // http://{IP Adress}:3005/
 export const sidebarLinks = [
   {
     route: "/",
     label: "Links",
   },
   {
-    route: "/",
+    route: "/appearance",
     label: "Appearance",
   },
   {
-    route: "/",
+    route: "/privacy",
     label: "Privacy",
   },
   {
-    route: "/",
+    route: "/settings",
     label: "Settings",
   },
 ];

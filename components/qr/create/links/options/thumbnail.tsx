@@ -4,7 +4,7 @@ import { ChevronLeft, Loader2, Image as Img } from "lucide-react";
 import { useEffect, useState } from "react";
 import { cn } from "lib/utils";
 import { Sheet, SheetContent, SheetTitle } from "components/ui/sheet";
-import { useBoardState } from "../boardStateContext";
+import { useBoardState } from "../../boardStateContext";
 import Resizer from "react-image-file-resizer";
 
 interface ThumbnailProps {

@@ -41,7 +41,7 @@ const CustomInput = ({
               <>
                 <Input
                   placeholder={placeholder}
-                  className="input-class pr-12"
+                  className="input-class pr-12 "
                   type={name === "password" && !hide ? "password" : "text"}
                   {...field}
                 />

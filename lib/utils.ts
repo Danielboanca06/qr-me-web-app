@@ -61,8 +61,17 @@ export const validLinkSchema = z.object({
   ]),
 });
 
-export const genId =
-  Date.now().toString(36) + Math.random().toString(36).substring(2);
+export const charNumSchema = (field: string, maxLength: number) => {
+  return z.object({
+    [field]: z
+      .string()
+      .max(maxLength, `${field} must be at most ${maxLength} characters long`),
+  });
+};
+
+export const genId = () => {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+};
 
 export const verifyEmailToken = (): VerifyEmailTokenResult => {
   "use client";

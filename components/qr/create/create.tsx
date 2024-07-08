@@ -1,5 +1,5 @@
 "use client";
-import Container from "./container";
+import Container from "./links/container";
 import { BoardStateProvider, useBoardState } from "./boardStateContext";
 import ContainerHead from "../headers/containerHead";
 import PreviewHeader from "../headers/previewHeader";
@@ -10,18 +10,31 @@ import { Loader2, Eye, X } from "lucide-react";
 import { Button } from "components/ui";
 import { cn } from "lib/utils";
 import MobileTopBar from "../headers/mobileTopBar";
+import { useSearchParams } from "next/navigation";
+import Appearance from "./appearance/appearance";
 
 interface QRProps {
   user: User;
 }
 
 const ContentSection = ({ qr, type }: { qr?: QrCode; type: string }) => {
-  const { content } = useBoardState();
+  const { qrContent } = useBoardState();
 
-  return <ContentBoard data={{ ...qr!, content: content }} type={type} />;
+  return (
+    <ContentBoard
+      data={{
+        // pass default data or updated
+        ...qr!,
+        ownerDetails: qrContent.ownerDetails,
+        content: qrContent?.content,
+      }}
+      type={type}
+    />
+  );
 };
 
 const Create = ({ user }: QRProps) => {
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [qr, setQr] = useState<QrCode>();
   const [showMobilePreview, setshowMobilePreview] = useState(false);
@@ -29,7 +42,7 @@ const Create = ({ user }: QRProps) => {
   useEffect(() => {
     const getdata = async () => {
       try {
-        const data = await getQrWithUserName(user.username);
+        const data = await getQrWithUserName(user._id);
         setQr(JSON.parse(data?.data!));
       } catch (error) {
         console.error("Error fetching QR data:", error);
@@ -38,18 +51,40 @@ const Create = ({ user }: QRProps) => {
       }
     };
     getdata();
-  }, [user.username]);
+  }, [user]);
 
   const handleMobilePreviewClick = () => {
     setshowMobilePreview((prev) => !prev);
   };
 
+  const getContent = () => {
+    const tab = searchParams.get("tab");
+    console.log({ user });
+
+    if (tab === "/appearance") {
+      return <Appearance />;
+    } else {
+      return (
+        <>
+          <ContainerHead />
+          <Container />
+        </>
+      );
+    }
+  };
+
+  if (loading) {
+    return (
+      <Loader2
+        size={100}
+        color="#9199A5"
+        className="flex animate-spin self-center my-auto"
+      />
+    );
+  }
+
   return (
-    <BoardStateProvider
-      username={user.username} // !change to username!
-      initalState={loading ? [] : qr?.content}
-      pageQr={qr!}
-    >
+    <BoardStateProvider pageQr={qr!}>
       <MobileTopBar user={user} />
       <section
         className={cn(
@@ -57,16 +92,7 @@ const Create = ({ user }: QRProps) => {
           { hidden: showMobilePreview }
         )}
       >
-        <ContainerHead />
-        {loading ? (
-          <Loader2
-            size={100}
-            color="#9199A5"
-            className="flex animate-spin self-center my-auto"
-          />
-        ) : (
-          <Container />
-        )}
+        {getContent()}
       </section>
       <section
         className={cn(

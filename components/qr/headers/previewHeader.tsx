@@ -2,7 +2,7 @@
 import { Button } from "components/ui";
 import { SheetTrigger, Sheet, SheetContent } from "components/ui/sheet";
 import { Share } from "lucide-react";
-import ShareModal from "../create/options/shareModal";
+import ShareModal from "../create/links/options/shareModal";
 
 const PreviewHeader = () => {
   return (

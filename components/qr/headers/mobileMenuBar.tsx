@@ -1,22 +1,27 @@
+"use client";
 import Link from "next/link";
 import { sidebarLinks } from "lib/constants";
 import { cn } from "lib/utils";
 import { Link2, Lock, Palette, Bolt } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 interface MobileMenuBarProps {
   user: User;
 }
 
 const MobileMenuBar = ({ user }: MobileMenuBarProps) => {
+  const params = useSearchParams();
   return (
     <section className="mobile-bar">
       <nav className="flex items-center justify-evenly  w-full  gap-4">
         {sidebarLinks.map((item, i) => {
-          const isActive = i === 0;
+          const isActive = item.route === params.get("tab");
 
           return (
-            <Link
-              href={item.route}
+            <button
+              onClick={() =>
+                window.history.pushState({ item }, "", `?tab=${item.route}`)
+              }
               key={item.label}
               className={cn("mobile-link", {
                 "border-b-2 border-black-100 rounded-b-sm": isActive,
@@ -43,7 +48,7 @@ const MobileMenuBar = ({ user }: MobileMenuBarProps) => {
               >
                 {item.label}
               </p>
-            </Link>
+            </button>
           );
         })}
 

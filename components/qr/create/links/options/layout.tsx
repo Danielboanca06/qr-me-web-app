@@ -2,7 +2,7 @@
 import { Button } from "components/ui";
 import { useEffect, useState } from "react";
 import { cn } from "lib/utils";
-import { useBoardState } from "../boardStateContext";
+import { useBoardState } from "../../boardStateContext";
 interface LayoutProps {
   onBlur: () => void;
   selected: string;

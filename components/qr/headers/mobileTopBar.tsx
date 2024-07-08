@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Button } from "components/ui";
 import { CircleUserRound, Share } from "lucide-react";
 import { SheetTrigger, Sheet, SheetContent } from "components/ui/sheet";
-import ShareModal from "../create/options/shareModal";
+import ShareModal from "../create/links/options/shareModal";
 interface MobileTopBarProps {
   user: User;
 }

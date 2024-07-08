@@ -35,8 +35,9 @@ export const createUser = async (
 
   try {
     await VerifyEmail.deleteOne({ email });
-    await newUser.save();
-    await createQrCode(newUser.username);
+    const user = await newUser.save();
+    console.log({ user });
+    await createQrCode(user);
     try {
       await signIn("credentials", {
         email: email!,

@@ -80,19 +80,43 @@ declare type PageText = {
   text: string;
   active: boolean;
 };
+declare type SocialIconsType = {
+  socialName: string;
+  url?: string;
+  iconColor?: string;
+};
+
 declare interface QrCode {
-  _id: mongoose.Schema.Types.ObjectId;
-  accessId: string; // !under 8 char long simplify qr code!
+  _id?: mongoose.Schema.Types.ObjectId;
   content?: Array<PageLinks | PageText>;
-  bio: string;
-  previewImage?: string;
-  owner?: string; // the username
-  ownerProfilePic?: string;
-  bio?: string;
+  userid: string;
+  socialIcons?: SocialIconsType[];
+  ownerDetails: {
+    bio?: string;
+    title?: string;
+    profilePic?: stirng;
+    picType?: string;
+    username?: string;
+    firstName?: string;
+    lastName?: string;
+  };
+  background?: {
+    type: string;
+    color: string;
+    gradientDirection?: "up" | "down";
+  };
+  button?: {
+    type: string;
+    color: string;
+    fontColor: string;
+  };
+  font?: {
+    font: string;
+    color: string;
+  };
   public: boolean;
   creaded_at: moongose.Date;
   updatedAt: moongose.Date;
-  qrCode: string;
 }
 declare type ImageDataType = {
   _id: mongoose.Schema.Types.ObjectId;

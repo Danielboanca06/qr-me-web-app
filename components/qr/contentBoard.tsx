@@ -1,7 +1,7 @@
 import { CircleUserRound } from "lucide-react";
 import Image from "next/image";
 import { cn } from "lib/utils";
-import DisplayCard from "./create/displayCard";
+import DisplayCard from "./create/links/displayCard";
 
 interface ContentBoardProps {
   data: QrCode;
@@ -18,23 +18,21 @@ const ContentBoard = ({ data, type }: ContentBoardProps) => {
     >
       <header>
         <div className="flex flex-col justify-center items-center gap-1">
-          {data?.ownerProfilePic ? (
+          {data?.ownerDetails.profilePic ? (
             <Image
-              src={data.ownerProfilePic}
+              src={data.ownerDetails.profilePic}
               width={75}
               height={75}
-              alt={`${data?.owner} Profile Picture`}
+              alt={`${data?.ownerDetails.username} Profile Picture`}
             />
           ) : (
             <CircleUserRound width={70} height={70} color="black" />
           )}
           <h1 className="heaser-text text-center !text-white-100">
-            <strong>@{data?.owner || "Anonymous"}</strong>
+            <strong>{data?.ownerDetails.title || "Anonymous"}</strong>
           </h1>
           <p className="text-white-100 text-12 text-center">
-            {`Hi ${
-              data?.owner ? data?.owner + " " + `here,` : ","
-            }  I've recently joined Qr Me. Take a look at my links below!`}
+            {data?.ownerDetails.bio}
           </p>
         </div>
       </header>

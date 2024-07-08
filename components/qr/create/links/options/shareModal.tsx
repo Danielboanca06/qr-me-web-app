@@ -6,17 +6,34 @@ import {
   Loader2,
   SquareArrowOutUpRight,
 } from "lucide-react";
-import { useBoardState } from "../boardStateContext";
+import { useBoardState } from "../../boardStateContext";
 import Image from "next/image";
 import { downloadImage, copyClick, cn } from "lib/utils";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { url } from "lib/constants";
+import { toDataURL } from "qrcode";
 
 const ShareModal = () => {
-  const { qrData } = useBoardState();
+  const { qrContent } = useBoardState();
+  const [qrcode, setQrCode] = useState("");
   const [isCopied, setIsCopied] = useState(false);
 
-  if (!qrData) {
+  useEffect(() => {
+    const generateQrCode = async () => {
+      const code = await toDataURL(
+        `${url}scan/${qrContent.ownerDetails.username}`,
+        {
+          errorCorrectionLevel: "L",
+          type: "image/png",
+          width: 210,
+        }
+      );
+      setQrCode(code);
+    };
+    generateQrCode();
+  }, [qrContent]);
+
+  if (!qrContent) {
     return (
       <Loader2
         size={100}
@@ -27,7 +44,9 @@ const ShareModal = () => {
   }
   const handleCopyClick = async () => {
     try {
-      const copy = await copyClick(`${url}scan/${qrData.owner}`);
+      const copy = await copyClick(
+        `${url}scan/${qrContent.ownerDetails.username}`
+      );
       if (copy) {
         setIsCopied(true);
       }
@@ -46,20 +65,28 @@ const ShareModal = () => {
           Here is your unique Qr Me QR code that will direct people to your page
           when scanned.
         </h1>
-        <Image
-          width={100}
-          height={100}
-          className="flex w-max h-max"
-          src={qrData.qrCode!}
-          alt="Unique Qr Code"
-        />
+        {!qrcode ? (
+          <Loader2
+            size={100}
+            color="#9199A5"
+            className="flex animate-spin self-center my-auto"
+          />
+        ) : (
+          <Image
+            width={100}
+            height={100}
+            className="flex w-max h-max"
+            src={qrcode}
+            alt="Unique Qr Code"
+          />
+        )}
       </div>
       <div>
         {/** Download Buttons */}
         <Button
           variant={"ghost"}
           className="w-full p-10 justify-between gap-2"
-          onClick={() => downloadImage(qrData.qrCode!, "my-qr-me-code", "png")}
+          onClick={() => downloadImage(qrcode, "my-qr-me-code", "png")}
         >
           <div className="flex flex-col items-start">
             <h1 className="text-16 font-bold"> Download PNG</h1>
@@ -77,7 +104,7 @@ const ShareModal = () => {
         <Button
           variant={"ghost"}
           className="w-full p-10 flex justify-between gap-2"
-          onClick={() => downloadImage(qrData.qrCode!, "my-qr-me-code", "svg")}
+          onClick={() => downloadImage(qrcode!, "my-qr-me-code", "svg")}
         >
           <div className="flex flex-col items-start">
             <h1 className="text-16 font-bold"> Download SVG</h1>
@@ -113,7 +140,7 @@ const ShareModal = () => {
         onClick={handleCopyClick}
       >
         <Image src="/logo_1.png" width={50} height={50} alt="Qr Me Logo" />
-        <h1 className="mx-auto">{`qrmee/${qrData.owner}`}</h1>
+        <h1 className="mx-auto">{`qrmee/${qrContent.ownerDetails.username}`}</h1>
         <h1
           className={cn("animate-fade text-black-100", {
             "text-green-500": isCopied,
