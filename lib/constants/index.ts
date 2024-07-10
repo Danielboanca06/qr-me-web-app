@@ -1,4 +1,4 @@
-export const url = "http://192.168.1.3:3005/"; //"http://192.168.1.3:3005/" //"https://qrmee.vercel.app/"
+export const url = "https://qrmee.vercel.app/"; //"http://192.168.1.3:3005/" //"https://qrmee.vercel.app/"
 export const supportEmail = "";
 export const sidebarLinks = [
   {

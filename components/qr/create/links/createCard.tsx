@@ -10,7 +10,6 @@ import {
   LayoutTemplate,
   QrCode,
   MousePointerClick,
-  LockKeyhole,
   Import,
 } from "lucide-react";
 import { useState } from "react";
