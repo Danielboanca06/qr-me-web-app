@@ -166,3 +166,61 @@ export const copyClick = async (textToCopy: string): Promise<boolean> => {
   }
   return false;
 };
+
+export const resizeImage = async (file: string): Promise<string> => {
+  return new Promise<string>((resolve, reject) => {
+    // Extract base64 data from the input string
+    const matches = file.match(/^data:image\/([A-Za-z-+/]+);base64,(.+)$/);
+    if (!matches || matches.length !== 3) {
+      reject(new Error("Invalid base64 image data"));
+      return;
+    }
+    const base64Data = matches[2];
+
+    // Create HTMLImageElement to load the image
+    const img = new Image();
+    img.onload = () => {
+      // Create a canvas element
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Set canvas dimensions to match the image
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      // Draw image onto canvas
+      ctx?.drawImage(img, 0, 0, img.width, img.height);
+
+      // Resize the image on the canvas
+      const maxWidth = 300;
+      const maxHeight = 300;
+      let newWidth = img.width;
+      let newHeight = img.height;
+
+      if (newWidth > maxWidth) {
+        const ratio = maxWidth / newWidth;
+        newWidth *= ratio;
+        newHeight *= ratio;
+      }
+
+      if (newHeight > maxHeight) {
+        const ratio = maxHeight / newHeight;
+        newWidth *= ratio;
+        newHeight *= ratio;
+      }
+
+      canvas.width = newWidth;
+      canvas.height = newHeight;
+      ctx?.drawImage(img, 0, 0, newWidth, newHeight);
+
+      // Convert canvas to base64 data URL
+      const resizedBase64 = canvas.toDataURL(`image/${matches[1]}`);
+
+      // Resolve with the resized image data URL
+      resolve(resizedBase64);
+    };
+
+    // Set the image source to trigger loading
+    img.src = `data:image/${matches[1]};base64,${base64Data}`;
+  });
+};

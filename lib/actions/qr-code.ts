@@ -2,6 +2,8 @@
 import { url } from "lib/constants";
 import connectToMongoDB from "lib/db";
 import QrCodeModel from "models/qrCode";
+import { ObjectId } from "mongoose";
+import { PageLinks, PageText, QrCode, User } from "types";
 
 export const createQrCode = async (user: User) => {
   await connectToMongoDB();
@@ -13,8 +15,11 @@ export const createQrCode = async (user: User) => {
     ownerDetails: {
       bio: `Hi my name is Daniel 👋 Checkout my links bellow!`,
       title: "@" + user.username,
-      profilePic: "",
-      picType: "classic",
+      profilePic: {
+        type: "classic",
+        fileName: "",
+        url: "",
+      },
       username: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
@@ -51,7 +56,7 @@ export const getScanQrCode = async (accessId: string) => {
     console.log("Error getting qr code from db", e);
   }
 };
-export const getQrWithUserName = async (userid: string) => {
+export const getQrWithUserName = async (userid: string | ObjectId) => {
   await connectToMongoDB();
   try {
     const data = await QrCodeModel.findOne({ userid });
@@ -94,13 +99,18 @@ export const updateQrCode = async (qrData: QrCode) => {
 
 export const updatedQrPageContent = async (
   userid: string,
-  data: Array<PageText | PageLinks>
+  data: Array<PageLinks | PageText>
 ) => {
   await connectToMongoDB();
+  console.log(data);
   try {
     const updatedQrCode = await QrCodeModel.findOneAndUpdate(
       { userid: userid },
-      { content: data },
+      {
+        $set: {
+          content: data,
+        },
+      },
       { new: true }
     );
 
@@ -122,7 +132,11 @@ export const updateQrPageProfile = async (
   try {
     const updatedQrCode = await QrCodeModel.findOneAndUpdate(
       { userid: userid },
-      { ownerDetails: data },
+      {
+        $set: {
+          ownerDetails: data,
+        },
+      },
       { new: true }
     );
 

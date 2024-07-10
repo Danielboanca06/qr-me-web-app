@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 /* Auth */
 declare type SignUpParams = {
   firstName: string;
@@ -54,7 +56,10 @@ declare interface User {
   postalCode?: string;
   shoppingPreference: "Men's" | "Women's";
   emailToken?: string;
-  // content?: QrCode[];
+  profilePic?: {
+    fileName: string;
+    url: stirng;
+  };
 }
 
 /* Qr Code */
@@ -73,7 +78,10 @@ declare type PageLinks = {
   link: string;
   active: boolean;
   layout: string;
-  thumbnail: string;
+  thumbnail: {
+    fileName: string;
+    url: stirng;
+  };
 };
 declare type PageText = {
   id: string;
@@ -94,8 +102,11 @@ declare interface QrCode {
   ownerDetails: {
     bio?: string;
     title?: string;
-    profilePic?: stirng;
-    picType?: string;
+    profilePic?: {
+      type: string;
+      fileName: string;
+      url: stirng;
+    };
     username?: string;
     firstName?: string;
     lastName?: string;
@@ -118,8 +129,11 @@ declare interface QrCode {
   creaded_at: moongose.Date;
   updatedAt: moongose.Date;
 }
+
 declare type ImageDataType = {
   _id: mongoose.Schema.Types.ObjectId;
   name: string;
-  image: string;
+  userid: string;
+  imageFile: string;
+  createdAt: mongoose.Date;
 };

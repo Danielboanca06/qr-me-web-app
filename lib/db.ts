@@ -7,12 +7,12 @@ if (!uri) {
   throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
 }
 
-declare global {
-  var mongoose: {
-    conn: typeof import("mongoose") | null;
-    promise: Promise<typeof import("mongoose")> | null;
-  };
-}
+// declare global {
+//   var mongoose: {
+//     conn: typeof import("mongoose") | null;
+//     promise: Promise<typeof import("mongoose")> | null;
+//   };
+// }
 
 let cached = global.mongoose;
 

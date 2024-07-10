@@ -20,6 +20,7 @@ import Layout from "./options/layout";
 import Thumbnail from "./options/thumbnail";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
 import { useBoardState } from "../boardStateContext";
+import { PageLinks, PageText } from "types";
 
 interface CreateCardProps {
   content: PageLinks | PageText;

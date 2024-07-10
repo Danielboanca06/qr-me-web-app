@@ -1,5 +1,6 @@
 "use client";
 import QrCard from "components/qr/qrCard";
+import { User } from "types";
 interface UserPreviewCodesProps {
   session: User;
 }

@@ -1,12 +1,15 @@
 import Link from "next/link";
-import Image from "next/image";
 import { cn } from "lib/utils";
+import { PageLinks } from "types";
 
 interface DisplayCardProps {
   content: PageLinks;
 }
 
 const DisplayCard = ({ content }: DisplayCardProps) => {
+  if (!content.thumbnail.url && !content.title && !content.link) {
+    return;
+  }
   if (content.layout === "featured") {
     return (
       <Link
@@ -17,13 +20,11 @@ const DisplayCard = ({ content }: DisplayCardProps) => {
         id={`link-${content.id}`}
         href={content.link}
       >
-        {content.thumbnail && (
-          <Image
-            src={JSON.parse(content?.thumbnail)}
-            alt="Link Thumbnail"
-            width={40}
-            height={40}
-            className="w-full z-5 h-full  rounded-3xl border-2 border-black-100"
+        {content.thumbnail.url && (
+          <img
+            src={content?.thumbnail.url}
+            alt={"Uploaded Image" + content.thumbnail.fileName}
+            className="w-full z-5 h-full  rounded-3xl border-2 border-black-100 text-[8px] text-center"
           />
         )}
         <div className=" absolute bottom-2 px-5 z-10 flex-1 flex justify-center">
@@ -41,13 +42,11 @@ const DisplayCard = ({ content }: DisplayCardProps) => {
       id={`link-${content.id}`}
       href={content.link}
     >
-      {content.thumbnail && (
-        <Image
-          src={JSON.parse(content.thumbnail)}
-          alt="Link Thumbnail"
-          width={40}
-          height={40}
-          className="w-10 h-10 rounded-full ml-1"
+      {content.thumbnail.url && (
+        <img
+          src={content?.thumbnail.url}
+          alt={"Uploaded Image" + content.thumbnail.fileName}
+          className="w-10 h-10 rounded-full ml-1 text-[5px] text-center"
         />
       )}
       <div className="flex-1 flex justify-center">

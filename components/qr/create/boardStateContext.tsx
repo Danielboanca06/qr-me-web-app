@@ -12,21 +12,7 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-
-interface PageLinks {
-  id: string;
-  title: string;
-  link: string;
-  active: boolean;
-  layout: string;
-  thumbnail: string;
-}
-
-interface PageText {
-  id: string;
-  text: string;
-  active: boolean;
-}
+import { PageLinks, PageText, QrCode } from "types";
 
 interface BoardStateContextProps {
   qrContent: QrCode;
@@ -52,7 +38,7 @@ type ActionType =
       link?: string;
       active?: boolean;
       layout?: string;
-      thumbnail?: string;
+      thumbnail?: { fileName: string; url: string };
     }
   | { type: "UPDATE_TEXT"; id: string; text?: string; active?: boolean }
   | { type: "REORDER"; sourceIndex: number; destinationIndex: number }
@@ -66,7 +52,7 @@ type UpdatePageLinks = {
   link?: string;
   active?: boolean;
   layout?: string;
-  thumbnail?: string;
+  thumbnail?: { fileName: string; url: string };
 };
 
 type UpdatePageText = {
@@ -84,7 +70,10 @@ const boardStateReducer = (state: QrCode, action: ActionType): QrCode => {
         link: "",
         active: false,
         layout: "classic",
-        thumbnail: "",
+        thumbnail: {
+          fileName: "",
+          url: "",
+        },
       };
       return { ...state, content: [...state?.content!, newLink] };
     case "ADD_TEXT":
@@ -136,7 +125,10 @@ const boardStateReducer = (state: QrCode, action: ActionType): QrCode => {
       };
     case "UPDATE_PROFILE":
       console.log(action.data);
-      return { ...state, ownerDetails: { ...action.data } };
+      return {
+        ...state,
+        ownerDetails: { ...state.ownerDetails, ...action.data },
+      };
     case "REORDER":
       const content = Array.from(state?.content!);
       const [removed] = content.splice(action.sourceIndex, 1);

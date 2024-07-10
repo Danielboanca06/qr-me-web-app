@@ -1,4 +1,5 @@
 import mongoose, { Model, Schema } from "mongoose";
+import { User } from "types";
 
 const userSchema = new mongoose.Schema<User>(
   {
@@ -13,36 +14,10 @@ const userSchema = new mongoose.Schema<User>(
     address: { type: String },
     postalCode: { type: String },
     emailToken: { type: String },
-    // content: {
-    //   type: [
-    //     {
-    //       type: new Schema(
-    //         {
-    //           id: { type: String, required: true },
-    //           title: { type: String },
-    //           link: { type: String },
-    //           active: { type: Boolean, required: true },
-    //           layout: { type: String, required: true },
-    //           thumbnail: { type: String },
-    //         },
-    //         { _id: false }
-    //       ),
-    //       required: false,
-    //     },
-    //     {
-    //       type: new Schema(
-    //         {
-    //           id: { type: String, required: true },
-    //           text: { type: String },
-    //           active: { type: Boolean, required: true },
-    //         },
-    //         { _id: false }
-    //       ),
-    //       required: false,
-    //     },
-    //   ],
-    //   required: false,
-    // },
+    profilePic: {
+      fileName: { type: String },
+      url: { type: String },
+    },
   },
   { timestamps: true }
 );

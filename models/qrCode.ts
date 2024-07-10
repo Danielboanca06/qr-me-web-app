@@ -1,4 +1,5 @@
 import mongoose, { Model } from "mongoose";
+import { QrCode } from "types";
 
 const qrCodeSchema = new mongoose.Schema<QrCode>(
   {
@@ -10,7 +11,10 @@ const qrCodeSchema = new mongoose.Schema<QrCode>(
         active: { type: Boolean, required: true },
         layout: { type: String },
         text: { type: String },
-        thumbnail: { type: String },
+        thumbnail: {
+          fileName: { type: String, required: false },
+          url: { type: String, required: false },
+        },
       },
     ],
     userid: { type: String, required: true },
@@ -18,8 +22,11 @@ const qrCodeSchema = new mongoose.Schema<QrCode>(
     ownerDetails: {
       bio: { type: String },
       title: { type: String },
-      profilePic: { type: String },
-      picType: { type: String },
+      profilePic: {
+        type: { type: String },
+        fileName: { type: String },
+        url: { type: String },
+      },
       username: { type: String },
       firstName: { type: String },
       lastName: { type: String },

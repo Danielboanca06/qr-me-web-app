@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { signIn } from "auth";
 import VerifyEmail from "models/verifyEmail";
 import { createQrCode } from "./qr-code";
+import { SignUpParams } from "types";
 
 export const createUser = async (
   user: SignUpParams

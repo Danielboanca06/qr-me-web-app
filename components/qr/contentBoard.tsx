@@ -1,7 +1,9 @@
-import { CircleUserRound } from "lucide-react";
+import { CircleUserRound, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { cn } from "lib/utils";
 import DisplayCard from "./create/links/displayCard";
+import { QrCode } from "types";
+import { lazy, Suspense } from "react";
 
 interface ContentBoardProps {
   data: QrCode;
@@ -18,16 +20,18 @@ const ContentBoard = ({ data, type }: ContentBoardProps) => {
     >
       <header>
         <div className="flex flex-col justify-center items-center gap-1">
-          {data?.ownerDetails.profilePic ? (
-            <Image
-              src={data.ownerDetails.profilePic}
-              width={75}
-              height={75}
-              alt={`${data?.ownerDetails.username} Profile Picture`}
-            />
-          ) : (
-            <CircleUserRound width={70} height={70} color="black" />
-          )}
+          <Suspense fallback={<Loader2 size={20} className="animate-spin" />}>
+            {data?.ownerDetails.profilePic?.url ? (
+              <img
+                src={data.ownerDetails.profilePic.url}
+                width={75}
+                height={75}
+                alt={`${data?.ownerDetails.username} Profile Picture`}
+              />
+            ) : (
+              <CircleUserRound width={70} height={70} color="black" />
+            )}
+          </Suspense>
           <h1 className="heaser-text text-center !text-white-100">
             <strong>{data?.ownerDetails.title || "Anonymous"}</strong>
           </h1>

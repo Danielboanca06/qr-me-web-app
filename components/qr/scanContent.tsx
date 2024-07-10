@@ -10,8 +10,6 @@ interface TextItem {
   text: TextData;
 }
 
-import { Button } from "components/ui";
-import { cn } from "lib/utils";
 import { useEffect, useState } from "react";
 
 type HTMLTextTag = "a" | "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";

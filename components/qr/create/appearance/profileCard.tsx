@@ -1,12 +1,11 @@
 import { CircleUserRound } from "lucide-react";
 import { useBoardState } from "../boardStateContext";
 import Image from "next/image";
-import { Button, Input } from "components/ui";
-import { Textarea } from "components/ui/textarea";
-import { Form } from "react-hook-form";
-import { charNumSchema } from "lib/utils";
-import { useEffect, useState } from "react";
+import { Button } from "components/ui";
+import { useId, useState } from "react";
 import { cn } from "lib/utils";
+import { QrCode } from "types";
+import Thumbnail from "../links/options/thumbnail";
 
 interface ProfileCardProps {
   qrContent: QrCode;
@@ -69,9 +68,14 @@ const ProfileCard = ({}: ProfileCardProps) => {
         break;
     }
   };
+
+  const handleAddImage = () => {};
+
+  const handleRemovePic = () => {};
+
   return (
     <section className="create-card py-10 gap-5">
-      <div className="flex items-center w-full  px-10  gap-10">
+      {/* <div className="flex items-center w-full  px-10  gap-10">
         {qrContent?.ownerDetails?.profilePic ? (
           <Image
             src={qrContent.ownerDetails.profilePic}
@@ -99,7 +103,17 @@ const ProfileCard = ({}: ProfileCardProps) => {
             Remove
           </Button>
         </div>
-      </div>
+      </div> */}
+
+      <Thumbnail
+        id={useId()}
+        type="profilePic"
+        thumbnailImg={{
+          url: qrContent.ownerDetails.profilePic?.url,
+          fileName: qrContent.ownerDetails.profilePic?.fileName || "",
+        }}
+        show
+      />
 
       <div className=" w-[90%] rounded-xl ">
         <label

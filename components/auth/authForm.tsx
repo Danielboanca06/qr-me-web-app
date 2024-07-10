@@ -23,6 +23,7 @@ import {
 import { Label } from "components/ui/label";
 import { cn } from "lib/utils";
 import { createUser, signUserIn } from "lib/actions/user";
+import { ShipppingDetails, SignUpParams } from "types";
 
 interface AuthFormProps {
   type: "sign-up" | "sign-in" | "email" | "shipping-details";

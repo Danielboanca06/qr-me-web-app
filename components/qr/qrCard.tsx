@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { QrCodePreview } from "types";
 
 const QrCard = ({
   qrcode: { _id, title, previewImage, updatedAt },

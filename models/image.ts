@@ -1,13 +1,14 @@
-import mongoose, { Model } from "mongoose";
+import mongoose from "mongoose";
 
-const ImageDataTypeSchema = new mongoose.Schema<ImageDataType>({
-  _id: { type: mongoose.Schema.Types.ObjectId, auto: true, required: true },
-  name: { type: String, required: true },
-  image: { type: String, required: true },
+const imageSchema = new mongoose.Schema({
+  name: String,
+  userid: String,
+  imageFile: Buffer,
+  createdAt: { type: Date, default: Date.now },
 });
 
-const ImageDataTypeModel: Model<ImageDataType> =
-  mongoose.models?.ImageDataType ||
-  mongoose.model<ImageDataType>("ImageDataType", ImageDataTypeSchema);
+// Check if model already exists to prevent recompilation
+const ImageDataTypeModel =
+  mongoose.models.Image || mongoose.model("Image", imageSchema);
 
 export default ImageDataTypeModel;

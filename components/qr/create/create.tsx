@@ -12,6 +12,7 @@ import { cn } from "lib/utils";
 import MobileTopBar from "../headers/mobileTopBar";
 import { useSearchParams } from "next/navigation";
 import Appearance from "./appearance/appearance";
+import { QrCode, User } from "types";
 
 interface QRProps {
   user: User;

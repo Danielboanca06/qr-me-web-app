@@ -4,6 +4,7 @@ import { sidebarLinks } from "lib/constants";
 import { cn } from "lib/utils";
 import { Link2, Lock, Palette, Bolt } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import { User } from "types";
 
 interface MobileMenuBarProps {
   user: User;

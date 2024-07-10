@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { MoveDown, CircleUserRound, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { updateQrCode } from "lib/actions/qr-code";
+import { QrCode, User } from "types";
 // import { addQrCodeToUser } from "lib/actions/user";
 
 interface CliamCodeProps {

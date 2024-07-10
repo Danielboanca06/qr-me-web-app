@@ -9,6 +9,7 @@ import { sidebarLinks } from "lib/constants";
 import { Link2, Lock, Palette, Bolt, CircleUserRound } from "lucide-react";
 import { Button } from "components/ui";
 import { useSearchParams } from "next/navigation";
+import { User } from "types";
 
 interface MenuBarProps {
   user: User;
