@@ -1,7 +1,4 @@
-import { CircleUserRound } from "lucide-react";
 import { useBoardState } from "../boardStateContext";
-import Image from "next/image";
-import { Button } from "components/ui";
 import { useId, useState } from "react";
 import { cn } from "lib/utils";
 import { QrCode } from "types";
@@ -21,13 +18,6 @@ const ProfileCard = ({}: ProfileCardProps) => {
     bio: qrContent?.ownerDetails?.bio,
     error: "",
   });
-
-  const handleProfile = (type: "pickImage" | "remove") => {
-    switch (type) {
-      case "pickImage":
-      case "remove":
-    }
-  };
 
   const handleTextChange = (
     type: "title" | "bio",
@@ -69,42 +59,8 @@ const ProfileCard = ({}: ProfileCardProps) => {
     }
   };
 
-  const handleAddImage = () => {};
-
-  const handleRemovePic = () => {};
-
   return (
     <section className="create-card py-10 gap-5">
-      {/* <div className="flex items-center w-full  px-10  gap-10">
-        {qrContent?.ownerDetails?.profilePic ? (
-          <Image
-            src={qrContent.ownerDetails.profilePic}
-            width={100}
-            height={100}
-            alt="Profile Picture"
-          />
-        ) : (
-          <CircleUserRound width={100} height={100} color="black" />
-        )}
-        <div className="flex flex-col grow gap-2">
-          <Button
-            onClick={() => handleProfile("pickImage")}
-            size={"wide"}
-            className="text-white-100 text-[16px] rounded-full"
-          >
-            Pick an Image
-          </Button>
-          <Button
-            size={"wide"}
-            variant={"outline"}
-            className=" text-[16px] rounded-full"
-            onClick={() => handleProfile("pickImage")}
-          >
-            Remove
-          </Button>
-        </div>
-      </div> */}
-
       <Thumbnail
         id={useId()}
         type="profilePic"

@@ -24,10 +24,8 @@ const ContentSection = ({ qr, type }: { qr?: QrCode; type: string }) => {
   return (
     <ContentBoard
       data={{
-        // pass default data or updated
         ...qr!,
-        ownerDetails: qrContent.ownerDetails,
-        content: qrContent?.content,
+        ...qrContent,
       }}
       type={type}
     />
@@ -60,7 +58,6 @@ const Create = ({ user }: QRProps) => {
 
   const getContent = () => {
     const tab = searchParams.get("tab");
-    console.log({ user });
 
     if (tab === "/appearance") {
       return <Appearance />;

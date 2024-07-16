@@ -1,9 +1,8 @@
 import { CircleUserRound, Loader2 } from "lucide-react";
-import Image from "next/image";
-import { cn } from "lib/utils";
+import { cn, hexToRgba } from "lib/utils";
 import DisplayCard from "./create/links/displayCard";
 import { QrCode } from "types";
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 
 interface ContentBoardProps {
   data: QrCode;
@@ -11,12 +10,22 @@ interface ContentBoardProps {
 }
 
 const ContentBoard = ({ data, type }: ContentBoardProps) => {
+  const backgroundVariants = {
+    "Flat Color": { backgroundColor: data?.background.color },
+    Gradient: {
+      backgroundImage: `linear-gradient(to bottom, ${
+        data.background?.color
+      }, ${hexToRgba(data.background?.color || "", 0.55)})`,
+    },
+    Image: { backgroundColor: data?.background.color },
+  };
   return (
     <section
       className={cn(
-        "flex flex-col py-10 px-2 items-center gap-5 w-full  rounded-3xl h-ful  bg-gradient-to-b from-fuchsia-500 to-secondary-100",
+        "flex flex-col py-10 px-2 items-center gap-5 w-full  rounded-3xl h-ful  ",
         { "rounded-none h-screen": type !== "rounded" }
       )}
+      style={backgroundVariants[data.background?.type || "Gradeint"]}
     >
       <header>
         <div className="flex flex-col justify-center items-center gap-1">

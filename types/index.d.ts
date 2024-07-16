@@ -112,18 +112,18 @@ declare interface QrCode {
     lastName?: string;
   };
   background?: {
-    type: string;
-    color: string;
+    type?: string;
+    color?: string;
     gradientDirection?: "up" | "down";
   };
   button?: {
-    type: string;
-    color: string;
-    fontColor: string;
+    type?: string;
+    color?: string;
+    fontColor?: string;
   };
   font?: {
-    font: string;
-    color: string;
+    font?: string;
+    color?: string;
   };
   public: boolean;
   creaded_at: moongose.Date;

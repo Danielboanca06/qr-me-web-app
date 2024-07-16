@@ -1,14 +1,16 @@
 import { useBoardState } from "../boardStateContext";
+import Backgrounds from "./backgrounds";
 import ProfileCard from "./profileCard";
 
 interface AppearanceProps {}
 
 const Appearance = ({}: AppearanceProps) => {
   const { qrContent } = useBoardState();
-  console.log(qrContent);
+
   return (
-    <section className="flex flex-col w-full h-screen ">
+    <section className="flex flex-col w-full h-full ">
       <ProfileCard qrContent={qrContent!} />
+      <Backgrounds qrContent={qrContent} />
     </section>
   );
 };

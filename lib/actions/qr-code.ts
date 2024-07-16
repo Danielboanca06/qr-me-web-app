@@ -13,7 +13,7 @@ export const createQrCode = async (user: User) => {
     content: [],
     userid: user._id,
     ownerDetails: {
-      bio: `Hi my name is Daniel 👋 Checkout my links bellow!`,
+      bio: `Hi my name is ${user.firstName} 👋`,
       title: "@" + user.username,
       profilePic: {
         type: "classic",
@@ -24,13 +24,27 @@ export const createQrCode = async (user: User) => {
       firstName: user.firstName,
       lastName: user.lastName,
     },
+    background: {
+      type: "Gradient",
+      color: "#9A2CF6",
+      gradientDirection: "up",
+    },
+    font: {
+      font: "",
+      color: "white",
+    },
+    button: {
+      type: "default",
+      color: "#AF17F7",
+      fontColor: "",
+    },
   };
 
   const qr = new QrCodeModel(qrCode);
 
   try {
     await qr.save();
-    console.log("Qr Created successfully");
+
     return { status: 200 };
   } catch (e) {
     console.log("Error saving qr code to db", e);
@@ -42,7 +56,6 @@ export const getScanQrCode = async (accessId: string) => {
   await connectToMongoDB();
   //send the owner a notificaton saying sombody viewed there code;
   try {
-    console.log(accessId);
     const data = await QrCodeModel.findOne({
       "ownerDetails.username": accessId,
     });
@@ -136,6 +149,45 @@ export const updateQrPageProfile = async (
         $set: {
           ownerDetails: data,
         },
+      },
+      { new: true }
+    );
+
+    if (!updatedQrCode) {
+      throw new Error("QR code not found");
+    }
+    return { status: 200, message: "success" };
+  } catch (error) {
+    console.error("Error updating QR code:", error);
+    return { status: 500, message: "Internal server error" };
+  }
+};
+type AppearanceType = "background" | "font" | "button";
+export const updateQPageAppearance = async (
+  userid: string,
+  type: AppearanceType,
+  data: QrCode[AppearanceType]
+) => {
+  await connectToMongoDB();
+
+  let dataToUpdate = {};
+
+  switch (type) {
+    case "background":
+      dataToUpdate = { background: data };
+      break;
+    case "font":
+      dataToUpdate = { font: data };
+      break;
+    case "button":
+      dataToUpdate = { button: data };
+      break;
+  }
+  try {
+    const updatedQrCode = await QrCodeModel.findOneAndUpdate(
+      { userid: userid },
+      {
+        $set: dataToUpdate,
       },
       { new: true }
     );

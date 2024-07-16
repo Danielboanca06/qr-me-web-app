@@ -1,6 +1,6 @@
 import {
   updatedQrPageContent,
-  updateQrCode,
+  updateQPageAppearance,
   updateQrPageProfile,
 } from "lib/actions/qr-code";
 import { genId } from "lib/utils";
@@ -22,11 +22,17 @@ interface BoardStateContextProps {
   updateText: (data: UpdatePageText) => void;
   reorder: (sourceIndex: number, destinationIndex: number) => void;
   updateOwner: (data: QrCode["ownerDetails"]) => void;
+  updateAppearance: (
+    appearance: AppearanceType,
+    data: QrCode[AppearanceType]
+  ) => void;
 }
 
 const BoardStateContext = createContext<BoardStateContextProps | undefined>(
   undefined
 );
+
+type AppearanceType = "background" | "font" | "button";
 
 type ActionType =
   | { type: "ADD_LINK"; id: string }
@@ -44,7 +50,12 @@ type ActionType =
   | { type: "REORDER"; sourceIndex: number; destinationIndex: number }
   | { type: "FILL_CONTENT"; data: QrCode }
   | { type: "ADD_TEXT"; id: string }
-  | { type: "UPDATE_PROFILE"; data: QrCode["ownerDetails"] };
+  | { type: "UPDATE_PROFILE"; data: QrCode["ownerDetails"] }
+  | {
+      type: "UPDATE_APPEARANCE";
+      appearance: AppearanceType;
+      data: QrCode[AppearanceType];
+    };
 
 type UpdatePageLinks = {
   id: string;
@@ -124,11 +135,29 @@ const boardStateReducer = (state: QrCode, action: ActionType): QrCode => {
         ),
       };
     case "UPDATE_PROFILE":
-      console.log(action.data);
       return {
         ...state,
         ownerDetails: { ...state.ownerDetails, ...action.data },
       };
+    case "UPDATE_APPEARANCE":
+      switch (action.appearance) {
+        case "background":
+          return {
+            ...state,
+            background: { ...state.background, ...action.data },
+          };
+
+        case "font":
+          return {
+            ...state,
+            font: { ...state.font, ...action.data },
+          };
+        case "button":
+          return {
+            ...state,
+            button: { ...state.button, ...action.data },
+          };
+      }
     case "REORDER":
       const content = Array.from(state?.content!);
       const [removed] = content.splice(action.sourceIndex, 1);
@@ -184,6 +213,20 @@ export const BoardStateProvider = ({
     handleStateChange();
   }, [qrContent.ownerDetails]);
 
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    const handleStateChange = async () => {
+      await updateQPageAppearance(
+        pageQr.userid,
+        "background",
+        qrContent?.background!
+      );
+    };
+    handleStateChange();
+  }, [qrContent.background, qrContent.font, qrContent.button]);
   const addContent = (type: "link" | "text") => {
     const id: string = genId();
     switch (type) {
@@ -214,6 +257,13 @@ export const BoardStateProvider = ({
     dispatch({ type: "UPDATE_PROFILE", data });
   };
 
+  const updateAppearance = (
+    appearance: AppearanceType,
+    data: QrCode[AppearanceType]
+  ) => {
+    dispatch({ type: "UPDATE_APPEARANCE", appearance, data });
+  };
+
   return (
     <BoardStateContext.Provider
       value={{
@@ -224,6 +274,7 @@ export const BoardStateProvider = ({
         updateText,
         reorder,
         updateOwner,
+        updateAppearance,
       }}
     >
       {children}

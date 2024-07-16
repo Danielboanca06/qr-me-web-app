@@ -32,13 +32,17 @@ export const createUser = async (
     lastName,
     username,
     emailToken: "",
+    profilePic: {
+      fileName: "",
+      url: "",
+    },
   });
 
   try {
     await VerifyEmail.deleteOne({ email });
     const user = await newUser.save();
-    console.log({ user });
-    await createQrCode(user);
+
+    const createQr = await createQrCode(user);
     try {
       await signIn("credentials", {
         email: email!,
