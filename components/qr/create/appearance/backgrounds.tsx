@@ -71,6 +71,7 @@ const Backgrounds = ({ qrContent }: BackgroundsProps) => {
           const isActive = selected === bgtype;
           return (
             <button
+              key={bgtype}
               onClick={() => handleTypeClick(bgtype)}
               className={cn(
                 "flex items-center flex-col w-[150px] h-[225px] animate-fade translate-all ease-linear",
