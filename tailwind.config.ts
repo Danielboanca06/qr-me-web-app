@@ -63,6 +63,7 @@ const config = {
           200: "#3972D1",
         },
       },
+
       backgroundImage: {
         "bank-gradient": "linear-gradient(90deg, #0179FE 0%, #4893FF 100%)",
         "gradient-mesh": "url('/icons/gradient-mesh.svg')",
@@ -71,6 +72,8 @@ const config = {
       },
       boxShadow: {
         form: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
+        "3xl": "0 5px 10px 0px rgba(0, 0, 0, 0.2)",
+        block: "5px 5px 0px 0px rgba(0, 0, 1, 1)",
       },
       boxShadowImg: {
         custom: "0 0 30px 30px rgba(0, 0, 0, 1)",

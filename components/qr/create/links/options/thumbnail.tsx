@@ -13,6 +13,7 @@ import { useBoardState } from "../../boardStateContext";
 
 import { deleteImage, uploadImage } from "lib/actions/image-action";
 import { supportEmail } from "lib/constants";
+import Image from "next/image";
 
 interface ThumbnailProps {
   id: string;
@@ -220,11 +221,15 @@ const Thumbnail = ({
         </div>
       )}
       {thumbnailImg?.url && type !== "profilePic" && (
-        <div className="flex mx-5 justify-center items-center gap-5">
-          <img
+        <div className="flex mx-5 justify-center items-center relative  gap-5">
+          <Image
             src={thumbnailImg.url}
             alt={thumbnailImg.fileName}
-            className="size-[100px] rounded-lg max-w-full mx-auto"
+            className="size-[100px] rounded-lg max-w-full mx-auto z-0"
+            style={{
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
           />
 
           <div className="flex flex-col grow gap-2">
@@ -248,22 +253,28 @@ const Thumbnail = ({
       )}
 
       {type === "profilePic" && (
-        <div className="flex items-center w-full  px-10  gap-10">
+        <div className="flex items-center max-w-full  xl:px-10  xl:gap-10 px-5 gap-5    ">
           {thumbnailImg?.url && (
-            <img
+            <Image
+              width={100}
+              height={100}
               src={thumbnailImg.url}
               alt={thumbnailImg.fileName}
-              className="size-[100px] rounded-lg max-w-full mx-auto"
+              className=" w-[100px] h-[100px]  max-w-full mx-auto z-0 rounded-full"
+              style={{
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
             />
           )}
           {!thumbnailImg?.url && (
             <CircleUserRound width={100} height={100} color="black" />
           )}
-          <div className="flex flex-col grow gap-2">
+          <div className="flex flex-col grow gap-2 min-w-[200px]">
             <Button
               onClick={onChangeClick}
               size={"wide"}
-              className="text-white-100 text-[16px] rounded-full"
+              className=" text-white-100 text-[16px] rounded-full"
             >
               Pick an Image
             </Button>
@@ -349,7 +360,7 @@ const Thumbnail = ({
             </div>
 
             {modalOption === "native-upload" && (
-              <div className="animate-fade flex flex-col gap-5">
+              <div className="animate-fade flex flex-col gap-5 relative">
                 {uploadData.url === "" ? (
                   <div className=" w-[100%]  border-2 rounded-xl border-dashed flex flex-col justify-center items-center py-10 gap-2 ">
                     {loading && <Loader2 size={20} className="animate-spin" />}
@@ -377,10 +388,13 @@ const Thumbnail = ({
                     )}
                     {!loading && (
                       <img
-                        //@ts-ignore
                         src={uploadData.url}
                         alt="Uploaded Image"
-                        className="size-[100px] rounded-lg max-w-full mx-auto"
+                        className="size-[100px] rounded-lg max-w-full mx-auto z-0"
+                        style={{
+                          objectFit: "cover",
+                          objectPosition: "center",
+                        }}
                       />
                     )}
                   </>

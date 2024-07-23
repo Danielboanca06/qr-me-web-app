@@ -226,7 +226,19 @@ export const BoardStateProvider = ({
       );
     };
     handleStateChange();
-  }, [qrContent.background, qrContent.font, qrContent.button]);
+  }, [qrContent.background]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    const handleStateChange = async () => {
+      await updateQPageAppearance(pageQr.userid, "button", qrContent?.button!);
+    };
+    handleStateChange();
+  }, [qrContent.button]);
+
   const addContent = (type: "link" | "text") => {
     const id: string = genId();
     switch (type) {

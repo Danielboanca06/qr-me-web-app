@@ -3,6 +3,7 @@ import { cn, hexToRgba } from "lib/utils";
 import DisplayCard from "./create/links/displayCard";
 import { QrCode } from "types";
 import { Suspense } from "react";
+import Image from "next/image";
 
 interface ContentBoardProps {
   data: QrCode;
@@ -33,18 +34,23 @@ const ContentBoard = ({ data, type }: ContentBoardProps) => {
     >
       <header>
         <div className="flex flex-col justify-center items-center gap-1">
-          <Suspense fallback={<Loader2 size={20} className="animate-spin" />}>
-            {data?.ownerDetails.profilePic?.url ? (
-              <img
-                src={data.ownerDetails.profilePic.url}
-                width={75}
-                height={75}
-                alt={`${data?.ownerDetails.username} Profile Picture`}
-              />
-            ) : (
-              <CircleUserRound width={70} height={70} color="black" />
-            )}
-          </Suspense>
+          {data?.ownerDetails.profilePic?.url ? (
+            <Image
+              key={data.ownerDetails.profilePic.url}
+              src={data.ownerDetails.profilePic.url}
+              width={100}
+              height={100}
+              alt={`${data?.ownerDetails.username} Profile Picture`}
+              style={{
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
+              className="rounded-full w-[100px] h-[100px] "
+            />
+          ) : (
+            <CircleUserRound width={70} height={70} color="black" />
+          )}
+
           <h1 className="heaser-text text-center !text-white-100">
             <strong>{data?.ownerDetails.title || "Anonymous"}</strong>
           </h1>
@@ -56,7 +62,18 @@ const ContentBoard = ({ data, type }: ContentBoardProps) => {
       {data?.content?.map((content) => {
         if ("link" in content && content.active) {
           if (content.link || content.thumbnail || content.title) {
-            return <DisplayCard key={content.id} content={content} />;
+            return (
+              <Suspense
+                key={content.id}
+                fallback={<Loader2 size={20} className="animate-spin" />}
+              >
+                <DisplayCard
+                  key={content.id}
+                  content={content}
+                  buttonStyle={data?.button!}
+                />
+              </Suspense>
+            );
           }
         }
         if ("text" in content && content.active) {

@@ -30,13 +30,16 @@ const MenuBar = ({ user }: MenuBarProps) => {
         </Button>
       </div> */}
       <nav className="flex flex-col  gap-4">
-        <Link href="/" className="mb-12 cursor-pointer flex items-center gap-2">
+        <Link
+          href="/"
+          className="mb-12  cursor-pointer flex items-center justify-start  xl:gap-5"
+        >
           <Image
             src="/logo_1.svg"
             width={34}
             height={34}
             alt="Qr Me Logo"
-            className="size-[24px] max-xl:size-14"
+            className="flex mx-auto xl:m-0 mt-5  size-[34px] xl:size-10"
           />
           <h1 className="sidebar-logo">Qr Me</h1>
         </Link>

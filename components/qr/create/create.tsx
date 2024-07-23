@@ -11,7 +11,7 @@ import { Button } from "components/ui";
 import { cn } from "lib/utils";
 import MobileTopBar from "../headers/mobileTopBar";
 import { useSearchParams } from "next/navigation";
-import Appearance from "./appearance/appearance";
+import Appearance from "./appearance";
 import { QrCode, User } from "types";
 
 interface QRProps {

@@ -1,10 +1,9 @@
-import { cn, colourNameToHex } from "lib/utils";
+import { cn } from "lib/utils";
 import { QrCode } from "types";
 import { Image, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { HexColorPicker } from "react-colorful";
-import { Button } from "components/ui";
+import { useState } from "react";
 import { useBoardState } from "../boardStateContext";
+import Color from "components/ui/color";
 
 interface BackgroundsProps {
   qrContent: QrCode;
@@ -18,45 +17,9 @@ const Backgrounds = ({ qrContent }: BackgroundsProps) => {
   const [selected, setSelected] = useState(
     qrContent.background?.type || "Gradient"
   );
-
-  const [color, setColor] = useState(qrContent.background?.color || "#9A2CF6");
-  const [inputVal, setInputVal] = useState(
-    qrContent.background?.color || "#9A2CF6"
-  );
-  const [showColor, setShowColor] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const colorRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setHidden((prev) => !prev);
-      const height = colorRef.current?.offsetTop;
-      if (height !== undefined) {
-        console.log("scrolling to", height);
-        window.scrollTo({
-          top: height,
-          behavior: "smooth",
-        });
-      }
-    }, 200);
-  }, [showColor]);
-
   const handleTypeClick = (type: BackgroundType) => {
     setSelected(type);
     updateAppearance("background", { type: type });
-  };
-
-  const handleInputBlur = (
-    e: React.FocusEvent<HTMLInputElement> | undefined
-  ) => {
-    let hex = color;
-    if (e) {
-      hex = colourNameToHex(e.target.value) || "";
-    }
-    if (hex) {
-      setColor(hex);
-      updateAppearance("background", { color: hex });
-    }
   };
 
   return (
@@ -66,7 +29,7 @@ const Backgrounds = ({ qrContent }: BackgroundsProps) => {
         "my-5 p-10  gap-5 h-auto transform-all duration-1000 items-center"
       )}
     >
-      <div className="flex flex-wrap w-full items-start justify-between">
+      <div className="flex flex-wrap w-full items-start   justify-between  gap-5">
         {backgroundTypes.map((bgtype, i) => {
           const isActive = selected === bgtype;
           return (
@@ -74,7 +37,7 @@ const Backgrounds = ({ qrContent }: BackgroundsProps) => {
               key={bgtype}
               onClick={() => handleTypeClick(bgtype)}
               className={cn(
-                "flex items-center flex-col w-[150px] h-[225px] animate-fade translate-all ease-linear",
+                "flex items-center flex-col w-[150px] h-[225px] animate-fade translate-all ease-linear mx-auto",
                 {
                   "p-2 border-2 border-black-100 rounded-lg duration-200 ":
                     isActive,
@@ -96,63 +59,17 @@ const Backgrounds = ({ qrContent }: BackgroundsProps) => {
               >
                 {bgtype === "Image" && <Image className="mx-auto my-auto" />}
               </div>
-              <p>{bgtype}</p>
+              <p className="font-semibold">{bgtype}</p>
             </button>
           );
         })}
       </div>
-      <div className="flex p-1 self-start gap-5 ">
-        <button
-          id="ignore-clicks"
-          onClick={() => setShowColor((prev) => !prev)}
-        >
-          <div
-            className="w-10 h-10 rounded-md "
-            style={{ background: color }}
-          />
-        </button>
-        <Button className="flex flex-col items-start border-none  bg-scrim-200  rounded-lg m-auto hover:bg-scrim-200 ">
-          <p className="text-12 font-light">Color</p>
-          <input
-            className="outline-none max-w-[100px] bg-scrim-200  text-14"
-            onBlur={(e) => handleInputBlur(e)}
-            onChange={(e) => setInputVal(e.target.value)}
-            defaultValue={color}
-            value={inputVal}
-          />
-        </Button>
-      </div>
-
-      <div
-        ref={colorRef}
-        className={cn(
-          "w-full h-full self-start gap-1 flex  ",
-          " delay-75 transition-all duration-800 animate-ease-linear flex ",
-          showColor ? "max-h-[1000px]" : "max-h-0",
-          {
-            "delay-75 animate-fade animate-reverse": !showColor,
-            "animate-fade": showColor,
-            hidden: hidden,
-          }
-        )}
-      >
-        <HexColorPicker
-          color={color}
-          onChange={(e) => {
-            setColor(e);
-            setInputVal(e);
-          }}
-          onMouseUp={() => handleInputBlur(undefined)}
-          onTouchEnd={() => handleInputBlur(undefined)}
-          onMouseLeave={() => handleInputBlur(undefined)}
+      <div className="self-start py-2">
+        <h3 className="font-semibold ">Color</h3>
+        <Color
+          initialColor={qrContent.background?.color}
+          onChange={(color) => updateAppearance("background", { color: color })}
         />
-        <Button
-          variant={"ghost"}
-          size={"icon"}
-          onClick={() => setShowColor(false)}
-        >
-          <X size={15} />
-        </Button>
       </div>
     </section>
   );

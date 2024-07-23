@@ -222,11 +222,11 @@ body {
 
   /* Sidebar */
   .sidebar {
-    @apply sticky bg-fixed   left-0 top-0 flex h-full  w-fit flex-col  justify-between shadow-2xl rounded-3xl border-2 border-gray-200 bg-white-100 pt-8 text-white-100 max-md:hidden sm:p-2 xl:p-4 2xl:w-[355px];
+    @apply sticky bg-fixed   left-0 top-0  h-full  w-fit flex-col  justify-between shadow-2xl rounded-3xl border-2 border-gray-200 bg-white-100 pt-8 text-white-100 hidden  md:flex sm:p-2 xl:p-4 2xl:w-[355px];
   }
 
   .sidebar-logo {
-    @apply 2xl:text-26 font-helvetica text-[26px] font-bold text-black-100 max-xl:hidden;
+    @apply 2xl:text-26 font-helvetica text-[26px] font-bold text-black-100 hidden xl:block;
   }
 
   .sidebar-link {

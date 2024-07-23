@@ -47,10 +47,12 @@ const qrCodeSchema = new mongoose.Schema<QrCode>(
         type: String,
         enum: ["up", "down"],
       },
+      contentUrl: { type: String },
     },
     button: {
       type: { type: String },
       color: { type: String },
+      raduis: { type: String },
       fontColor: { type: String },
     },
     font: {

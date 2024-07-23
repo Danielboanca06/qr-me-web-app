@@ -94,6 +94,23 @@ declare type SocialIconsType = {
   iconColor?: string;
 };
 
+declare type BackgroundBoardType = {
+  type?: string;
+  color?: string;
+  gradientDirection?: "up" | "down";
+  contentUrl?: string;
+};
+declare type ButtonBoardType = {
+  type?: string;
+  raduis?: string;
+  color?: string;
+  fontColor?: string;
+};
+declare type FontBoardType = {
+  font?: string;
+  color?: string;
+};
+
 declare interface QrCode {
   _id?: mongoose.Schema.Types.ObjectId;
   content?: Array<PageLinks | PageText>;
@@ -103,7 +120,7 @@ declare interface QrCode {
     bio?: string;
     title?: string;
     profilePic?: {
-      type: string;
+      type: ButtonBoardVariantsType;
       fileName: string;
       url: stirng;
     };
@@ -111,20 +128,9 @@ declare interface QrCode {
     firstName?: string;
     lastName?: string;
   };
-  background?: {
-    type?: string;
-    color?: string;
-    gradientDirection?: "up" | "down";
-  };
-  button?: {
-    type?: string;
-    color?: string;
-    fontColor?: string;
-  };
-  font?: {
-    font?: string;
-    color?: string;
-  };
+  background?: BackgroundBoardType;
+  button?: ButtonBoardType;
+  font?: FontBoardType;
   public: boolean;
   creaded_at: moongose.Date;
   updatedAt: moongose.Date;
