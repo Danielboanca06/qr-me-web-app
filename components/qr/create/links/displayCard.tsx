@@ -45,7 +45,7 @@ const DisplayCard = ({ content, buttonStyle }: DisplayCardProps) => {
         href={content.link}
       >
         {content.thumbnail.url && (
-          <Image
+          <img
             src={content?.thumbnail.url}
             alt={"Uploaded Image" + content.thumbnail.fileName}
             className={`flex w-full h-full  border-2 border-black-100 text-[8px] text-center size-full z-0 ${
@@ -92,7 +92,7 @@ const DisplayCard = ({ content, buttonStyle }: DisplayCardProps) => {
       href={content.link}
     >
       {content.thumbnail.url && (
-        <Image
+        <img
           src={content?.thumbnail.url}
           alt={"Uploaded Image" + content.thumbnail.fileName}
           className="w-10 z-0  h-10 rounded-full ml-1 text-[5px] text-center"

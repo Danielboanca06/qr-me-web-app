@@ -130,10 +130,8 @@ const Thumbnail = ({
     setLoading(true);
 
     const accessUrl = await uploadImage(uploadData?.fileName!, blob, id);
-    console.log(accessUrl);
-    if (accessUrl) {
-      console.log(accessUrl.body);
 
+    if (accessUrl) {
       switch (type) {
         case "thumbnail":
           updateLink({
@@ -222,7 +220,7 @@ const Thumbnail = ({
       )}
       {thumbnailImg?.url && type !== "profilePic" && (
         <div className="flex mx-5 justify-center items-center relative  gap-5">
-          <Image
+          <img
             src={thumbnailImg.url}
             alt={thumbnailImg.fileName}
             className="size-[100px] rounded-lg max-w-full mx-auto z-0"
@@ -255,7 +253,7 @@ const Thumbnail = ({
       {type === "profilePic" && (
         <div className="flex items-center max-w-full  xl:px-10  xl:gap-10 px-5 gap-5    ">
           {thumbnailImg?.url && (
-            <Image
+            <img
               width={100}
               height={100}
               src={thumbnailImg.url}

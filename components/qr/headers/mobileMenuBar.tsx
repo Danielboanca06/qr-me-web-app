@@ -16,7 +16,9 @@ const MobileMenuBar = ({ user }: MobileMenuBarProps) => {
     <section className="mobile-bar">
       <nav className="flex items-center justify-evenly  w-full  gap-4">
         {sidebarLinks.map((item, i) => {
-          const isActive = item.route === params.get("tab");
+          const isActive =
+            item.route === params.get("tab") ||
+            (params.get("tab") === null && item.route === "/");
 
           return (
             <button

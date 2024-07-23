@@ -35,7 +35,7 @@ const ContentBoard = ({ data, type }: ContentBoardProps) => {
       <header>
         <div className="flex flex-col justify-center items-center gap-1">
           {data?.ownerDetails.profilePic?.url ? (
-            <Image
+            <img
               key={data.ownerDetails.profilePic.url}
               src={data.ownerDetails.profilePic.url}
               width={100}
