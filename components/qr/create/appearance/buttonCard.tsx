@@ -20,12 +20,13 @@ const ButtonCard = () => {
   const { qrContent, updateAppearance } = useBoardState();
   const [selected, setSelected] = useState<{ type: string; border: string }>({
     type: qrContent.button?.type!,
-    border: qrContent.button?.raduis!,
+    border: qrContent.button?.radius!,
   });
 
   const handleButtonClick = (type: string, border: string) => {
     setSelected({ type, border });
-    updateAppearance("button", { type: type, raduis: border });
+    updateAppearance("button", { type: type, radius: border });
+
   };
 
   return (

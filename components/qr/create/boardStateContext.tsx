@@ -206,11 +206,14 @@ export const BoardStateProvider = ({
       return;
     }
 
-    const handleStateChange = async () => {
-      await updateQrPageProfile(pageQr.userid, qrContent?.ownerDetails!);
-    };
+    (async () => {
+      try {
+        await updateQrPageProfile(pageQr.userid, qrContent?.ownerDetails!);
+      } catch (error) {
+        console.error('Failed to update QR page profile:', error);
+      }
+    })();
 
-    handleStateChange();
   }, [qrContent.ownerDetails]);
 
   useEffect(() => {
@@ -225,7 +228,7 @@ export const BoardStateProvider = ({
         qrContent?.background!
       );
     };
-    handleStateChange();
+    handleStateChange()
   }, [qrContent.background]);
 
   useEffect(() => {
@@ -292,7 +295,7 @@ export const BoardStateProvider = ({
       {children}
     </BoardStateContext.Provider>
   );
-};
+}
 
 export const useBoardState = () => {
   const context = useContext(BoardStateContext);

@@ -20,8 +20,8 @@ declare type ShipppingDetails = {
 
 declare type LoginUser = {
   email: string;
-  phonNumber?: string;
   password: string;
+  phonNumber?: string;
 };
 
 declare type VerifyEmail = {
@@ -32,7 +32,7 @@ declare type VerifyEmail = {
 
 /*Database*/
 declare global {
-  var mongoose: {
+  const mongoose: {
     conn: typeof import("mongoose") | null;
     promise: Promise<typeof import("mongoose")> | null;
   };
@@ -41,7 +41,6 @@ declare global {
 /* User */
 declare interface User {
   _id: mongoose.Schema.Types.ObjectId;
-  emailToken: string;
   createdAt: moongose.Date;
   updatedAt: moongose.Date;
   firstName: string;
@@ -102,7 +101,7 @@ declare type BackgroundBoardType = {
 };
 declare type ButtonBoardType = {
   type?: string;
-  raduis?: string;
+  radius?: string;
   color?: string;
   fontColor?: string;
 };

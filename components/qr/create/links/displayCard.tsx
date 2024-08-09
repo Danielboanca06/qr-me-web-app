@@ -28,9 +28,9 @@ const DisplayCard = ({ content, buttonStyle }: DisplayCardProps) => {
           ],
           { "h-[300px]": size.width > 540 },
           `${
-            buttonStyle.raduis === "rounded-full"
+            buttonStyle.radius === "rounded-full"
               ? "rounded-[30px]"
-              : buttonStyle.raduis
+              : buttonStyle.radius
           }`
         )}
         style={{
@@ -49,9 +49,9 @@ const DisplayCard = ({ content, buttonStyle }: DisplayCardProps) => {
             src={content?.thumbnail.url}
             alt={"Uploaded Image" + content.thumbnail.fileName}
             className={`flex w-full h-full  border-2 border-black-100 text-[8px] text-center size-full z-0 ${
-              buttonStyle.raduis === "rounded-full"
+              buttonStyle.radius === "rounded-full"
                 ? "rounded-[30px]"
-                : buttonStyle.raduis
+                : buttonStyle.radius
             }`}
             style={{
               objectFit: "cover",
@@ -78,7 +78,7 @@ const DisplayCard = ({ content, buttonStyle }: DisplayCardProps) => {
           (buttonStyle.type as keyof ButtonBoardVariantsType) || "Fill"
         ],
 
-        buttonStyle.raduis
+        buttonStyle.radius
       )}
       style={{
         backgroundColor:

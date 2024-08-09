@@ -52,7 +52,7 @@ const qrCodeSchema = new mongoose.Schema<QrCode>(
     button: {
       type: { type: String },
       color: { type: String },
-      raduis: { type: String },
+      radius: { type: String },
       fontColor: { type: String },
     },
     font: {
