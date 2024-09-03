@@ -10,7 +10,7 @@ This project is a basic implementation to test out the features of Next.js and N
 ### Positives
 1. **Fast Rendering**
 2. **Easy Routing**
-3. **Quick Auth Set-up**:
+3. **Quick Auth Set-up**
 
 ### Negatives
 2. **Bundle Size**
